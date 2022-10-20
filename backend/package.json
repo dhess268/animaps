@@ -1,11 +1,40 @@
 {
   "name": "backend",
-  "version": "1.0.0",
-  "description": "Backend for animaps",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cookie-parser": "~1.4.4",
+    "cookie-session": "^2.0.0",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.2",
+    "express": "~4.16.1",
+    "express-session": "^1.17.3",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "jwt-simple": "^0.5.6",
+    "mongodb": "^4.10.0",
+    "mongoose": "^6.6.2",
+    "morgan": "~1.9.1",
+    "passport": "^0.6.0",
+    "passport-google-oauth2": "^0.2.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0"
+  },
+  "engines": {
+    "node": "16.14.2",
+    "npm": "8.5.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.5.0"
+  },
+  "main": "server.js",
+  "keywords": [],
   "author": "Dillon Hess",
-  "license": "ISC"
+  "license": "ISC",
+  "description": ""
 }
