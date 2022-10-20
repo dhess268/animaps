@@ -4,7 +4,15 @@ import MarkerWithInfoWindow from './MarkerWithInfoWindow';
 
 const markerData = [
   { pos: { lat: 44, lng: -80 }, content: 'hi there' },
-  { pos: { lat: 41.2709, lng: -73.7776 }, content: 'hi there' },
+  {
+    pos: { lat: 41.2709, lng: -73.7776 },
+    content: (
+      <div>
+        <p>hi</p>
+        <img src="https://placekitten.com/200/300" alt="placekitten" />
+      </div>
+    ),
+  },
 ];
 const libraries = ['places'];
 function App() {
@@ -17,12 +25,11 @@ function App() {
 }
 
 function Map() {
-  const center = useMemo(() => ({ lat: 44, lng: -80 }), []);
   const center2 = useMemo(() => ({ lat: 41.2709, lng: -73.7776 }), []);
   const [center3, setCenter3] = useState(center2);
-  const center4 = useRef(center);
   const [inputValue, setInputValue] = useState('');
   const [autocomplete, setAutocomplete] = useState(null);
+  const [map, setMap] = useState(null);
   function onLoad(auto) {
     setAutocomplete(auto);
   }
@@ -34,9 +41,17 @@ function Map() {
         lat: autocomplete.getPlace().geometry.location.lat(),
         lng: autocomplete.getPlace().geometry.location.lng(),
       });
+
       setInputValue('');
+      console.log(map);
     } else {
       console.log('Autocomplete is not loaded yet!');
+    }
+  }
+
+  function handleCenterChange() {
+    if (map) {
+      map.setZoom(16);
     }
   }
 
@@ -49,6 +64,9 @@ function Map() {
         width: '100%',
       }}
       onClick={(e) => console.log(e.latLng.lat())}
+      onCenterChanged={() => handleCenterChange()}
+      onLoad={(thisMap) => setMap(thisMap)}
+      // ref={(maap) => setMap(maap)}
     >
       <Autocomplete
         onLoad={(auto) => onLoad(auto)}
@@ -56,7 +74,7 @@ function Map() {
       >
         <input
           type="text"
-          placeholder="Customized your placeholder"
+          placeholder="Search for a location"
           style={{
             boxSizing: `border-box`,
             border: `1px solid transparent`,
@@ -76,11 +94,6 @@ function Map() {
           value={inputValue}
         />
       </Autocomplete>
-      {/* <MarkerWithInfoWindow position={center} content="Toronto" />
-      <MarkerWithInfoWindow
-        position={center2}
-        content="Yorktown Heights yaya"
-      /> */}
       {markerData.map((marker, i) => (
         <MarkerWithInfoWindow
           position={marker.pos}
