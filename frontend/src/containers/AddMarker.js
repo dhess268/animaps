@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import Autocomplete from 'react-google-autocomplete';
+import PropTypes from 'prop-types';
 
-export default function AddMarker() {
+export default function AddMarker({ addMarker }) {
   const [place, setPlace] = useState({ lat: null, lng: null });
   const [species, setSpecies] = useState('');
   const [description, setDescription] = useState('');
@@ -31,6 +32,15 @@ export default function AddMarker() {
         species,
         description,
       });
+      addMarker({
+        lat: place.lat,
+        lng: place.lng,
+        species,
+        description,
+      });
+      setSpecies('');
+      setDescription('');
+      setPlace({ lat: null, lng: null });
     }
   }
 
@@ -80,7 +90,7 @@ export default function AddMarker() {
             handlePlaceSelected(selected);
           }}
           options={{
-            types: 'address',
+            types: ['address'],
           }}
         />
         <button type="submit">Report</button>
@@ -88,3 +98,7 @@ export default function AddMarker() {
     </div>
   );
 }
+
+AddMarker.propTypes = {
+  addMarker: PropTypes.func,
+};

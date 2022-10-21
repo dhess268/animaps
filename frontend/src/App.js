@@ -1,5 +1,6 @@
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { GoogleMap, useLoadScript, Autocomplete } from '@react-google-maps/api';
+import moment from 'moment';
 import MarkerWithInfoWindow from './MarkerWithInfoWindow';
 import AddMarker from './containers/AddMarker';
 
@@ -31,6 +32,7 @@ function App() {
 }
 
 function Map() {
+  const [markers, setMarkers] = useState(markerData);
   const center2 = useMemo(() => ({ lat: 41.2709, lng: -73.7776 }), []);
   const [center3, setCenter3] = useState(center2);
   const [inputValue, setInputValue] = useState('');
@@ -61,9 +63,22 @@ function Map() {
     }
   }
 
+  const addMarker = useCallback(
+    (newMarker) => {
+      const newMarkerData = {
+        pos: { lat: newMarker.lat, lng: newMarker.lng },
+        description: newMarker.description,
+        species: newMarker.species,
+        time: moment().format('MMMM Do YYYY, h:mm:ss a'),
+      };
+      setMarkers((currMarkers) => [...currMarkers, newMarkerData]);
+    },
+    [setMarkers]
+  );
+
   return (
     <div className="map-container">
-      <AddMarker />
+      <AddMarker addMarker={addMarker} />
       <GoogleMap
         zoom={16}
         center={center3}
@@ -103,7 +118,7 @@ function Map() {
             value={inputValue}
           />
         </Autocomplete>
-        {markerData.map((marker, i) => (
+        {markers.map((marker, i) => (
           <MarkerWithInfoWindow
             position={marker.pos}
             time={marker.time}
