@@ -56,52 +56,54 @@ function Map() {
   }
 
   return (
-    <GoogleMap
-      zoom={16}
-      center={center3}
-      mapContainerStyle={{
-        height: '100vh',
-        width: '100%',
-      }}
-      onClick={(e) => console.log(e.latLng.lat())}
-      onCenterChanged={() => handleCenterChange()}
-      onLoad={(thisMap) => setMap(thisMap)}
-      // ref={(maap) => setMap(maap)}
-    >
-      <Autocomplete
-        onLoad={(auto) => onLoad(auto)}
-        onPlaceChanged={() => onPlaceChanged()}
+    <div className="map-container">
+      <GoogleMap
+        zoom={16}
+        center={center3}
+        mapContainerStyle={{
+          height: '50vh',
+          width: '50vw',
+        }}
+        onClick={(e) => console.log(e.latLng.lat())}
+        onCenterChanged={() => handleCenterChange()}
+        onLoad={(thisMap) => setMap(thisMap)}
+        // ref={(maap) => setMap(maap)}
       >
-        <input
-          type="text"
-          placeholder="Search for a location"
-          style={{
-            boxSizing: `border-box`,
-            border: `1px solid transparent`,
-            width: `240px`,
-            height: `32px`,
-            padding: `0 12px`,
-            borderRadius: `3px`,
-            boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-            fontSize: `14px`,
-            outline: `none`,
-            textOverflow: `ellipses`,
-            position: 'absolute',
-            left: '50%',
-            marginLeft: '-120px',
-          }}
-          onChange={(e) => setInputValue(e.value)}
-          value={inputValue}
-        />
-      </Autocomplete>
-      {markerData.map((marker, i) => (
-        <MarkerWithInfoWindow
-          position={marker.pos}
-          content={marker.content}
-          key={i}
-        />
-      ))}
-    </GoogleMap>
+        <Autocomplete
+          onLoad={(auto) => onLoad(auto)}
+          onPlaceChanged={() => onPlaceChanged()}
+        >
+          <input
+            type="text"
+            placeholder="Search for a location"
+            style={{
+              boxSizing: `border-box`,
+              border: `1px solid transparent`,
+              width: `240px`,
+              height: `32px`,
+              padding: `0 12px`,
+              borderRadius: `3px`,
+              boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+              fontSize: `14px`,
+              outline: `none`,
+              textOverflow: `ellipses`,
+              position: 'absolute',
+              left: '50%',
+              marginLeft: '-120px',
+            }}
+            onChange={(e) => setInputValue(e.value)}
+            value={inputValue}
+          />
+        </Autocomplete>
+        {markerData.map((marker, i) => (
+          <MarkerWithInfoWindow
+            position={marker.pos}
+            content={marker.content}
+            key={i}
+          />
+        ))}
+      </GoogleMap>
+    </div>
   );
 }
 

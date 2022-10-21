@@ -19,9 +19,9 @@ const localLogin = new LocalStrategy((username, password, done) => {
       return done(null, false);
     }
     // console.log('CHECK!: ', user.validPassword(password));
-    // if (!user.validPassword(password)) {
-    //   return done(null, false, { message: 'Incorrect password.' });
-    // }
+    if (!user.validPassword(password)) {
+      return done(null, false, { message: 'Incorrect password.' });
+    }
     return done(null, user);
   });
 });

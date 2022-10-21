@@ -46,14 +46,19 @@ router.post("/", function (req, res, next) {
       avatarUrl,
       password,
     } = req.body;
+
     const newUser = new User({
       username,
       firstname,
       lastname,
       email,
       avatarUrl,
-      password,
-    }).save((err) => {
+      password
+    })
+    
+    newUser .setPassword(password)
+
+    newUser.save((err) => {
       if (err) return next(err);
       res.status(204).json(newUser);
       res.end();
