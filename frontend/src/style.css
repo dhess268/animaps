@@ -62,3 +62,7 @@ a {
 }
 /* .form__inner * {
 } */
+
+.form__label {
+  width: 30%;
+}

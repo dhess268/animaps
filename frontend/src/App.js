@@ -6,7 +6,6 @@ import AddMarker from './containers/AddMarker';
 const markerData = [
   {
     pos: { lat: 44, lng: -80 },
-    content: 'hi there',
     description: 'This is a marker where an animal could have been spotted',
     species: 'cat',
     time: 'Jan 1st 1998',
@@ -16,12 +15,6 @@ const markerData = [
       lat: 41.2709,
       lng: -73.7776,
     },
-    content: (
-      <div>
-        <p>hi</p>
-        <img src="https://placekitten.com/200/300" alt="placekitten" />
-      </div>
-    ),
     description: 'This is a marker where an animal could have been spotted',
     species: 'dog',
     time: 'Jan 1st 1998',
@@ -48,15 +41,15 @@ function Map() {
   }
   async function onPlaceChanged() {
     if (autocomplete !== null) {
-      console.log(autocomplete.getPlace().geometry.location.lat());
-      console.log(autocomplete.getPlace().geometry.location.lng());
+      // console.log(autocomplete.getPlace().geometry.location.lat());
+      // console.log(autocomplete.getPlace().geometry.location.lng());
       setCenter3({
         lat: autocomplete.getPlace().geometry.location.lat(),
         lng: autocomplete.getPlace().geometry.location.lng(),
       });
 
       setInputValue('');
-      console.log(map);
+      // console.log(map);
     } else {
       console.log('Autocomplete is not loaded yet!');
     }
@@ -78,7 +71,8 @@ function Map() {
           height: '50vh',
           width: '50vw',
         }}
-        onClick={(e) => console.log(e.latLng.lat())}
+        clickableIcons={false}
+        // onClick={(e) => console.log(e.latLng.lat())}
         onCenterChanged={() => handleCenterChange()}
         onLoad={(thisMap) => setMap(thisMap)}
         // ref={(maap) => setMap(maap)}
@@ -112,9 +106,9 @@ function Map() {
         {markerData.map((marker, i) => (
           <MarkerWithInfoWindow
             position={marker.pos}
-            content={marker.content}
             time={marker.time}
             species={marker.species}
+            description={marker.description}
             key={i}
           />
         ))}
