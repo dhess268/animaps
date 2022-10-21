@@ -1,17 +1,30 @@
 import { useMemo, useRef, useState } from 'react';
 import { GoogleMap, useLoadScript, Autocomplete } from '@react-google-maps/api';
 import MarkerWithInfoWindow from './MarkerWithInfoWindow';
+import AddMarker from './containers/AddMarker';
 
 const markerData = [
-  { pos: { lat: 44, lng: -80 }, content: 'hi there' },
   {
-    pos: { lat: 41.2709, lng: -73.7776 },
+    pos: { lat: 44, lng: -80 },
+    content: 'hi there',
+    description: 'This is a marker where an animal could have been spotted',
+    species: 'cat',
+    time: 'Jan 1st 1998',
+  },
+  {
+    pos: {
+      lat: 41.2709,
+      lng: -73.7776,
+    },
     content: (
       <div>
         <p>hi</p>
         <img src="https://placekitten.com/200/300" alt="placekitten" />
       </div>
     ),
+    description: 'This is a marker where an animal could have been spotted',
+    species: 'dog',
+    time: 'Jan 1st 1998',
   },
 ];
 const libraries = ['places'];
@@ -57,6 +70,7 @@ function Map() {
 
   return (
     <div className="map-container">
+      <AddMarker />
       <GoogleMap
         zoom={16}
         center={center3}
@@ -99,6 +113,8 @@ function Map() {
           <MarkerWithInfoWindow
             position={marker.pos}
             content={marker.content}
+            time={marker.time}
+            species={marker.species}
             key={i}
           />
         ))}
