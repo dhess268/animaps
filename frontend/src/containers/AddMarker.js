@@ -6,10 +6,12 @@ export default function AddMarker({ addMarker }) {
   const [place, setPlace] = useState({ lat: null, lng: null });
   const [species, setSpecies] = useState('');
   const [description, setDescription] = useState('');
+  const [autocompleteInput, setAutocompleteInput] = useState('');
   function handlePlaceSelected(selectedPlace) {
     const lat = selectedPlace.geometry.location.lat();
     const lng = selectedPlace.geometry.location.lng();
     setPlace({ lat, lng });
+    setAutocompleteInput(selectedPlace.formatted_address);
   }
 
   function verifyInputs(enteredPlace, enteredSpecies, enteredDescription) {
@@ -41,6 +43,7 @@ export default function AddMarker({ addMarker }) {
       setSpecies('');
       setDescription('');
       setPlace({ lat: null, lng: null });
+      setAutocompleteInput('');
     }
   }
 
@@ -92,6 +95,8 @@ export default function AddMarker({ addMarker }) {
           options={{
             types: ['address'],
           }}
+          value={autocompleteInput}
+          onChange={(e) => setAutocompleteInput(e.target.value)}
         />
         <button type="submit">Report</button>
       </form>
