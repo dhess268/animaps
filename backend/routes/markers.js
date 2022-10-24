@@ -8,13 +8,12 @@ moment = require('moment')
 const Marker = require("../models/Marker");
 
 /* GET all marker data. */
-router.get("/", requireAuth, function (req, res, next) {
+router.get("/", function (req, res, next) {
   Marker.find().exec((err, markers) => {
     if (err) {
-      res.status(400).send(err);
-      return next(err);
+      return res.status(400).send(err);
     } else {
-      res.status(200).send(markers).end();
+      return res.status(200).send(markers).end();
     }
   });
 });

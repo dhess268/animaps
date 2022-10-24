@@ -1,5 +1,13 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { GoogleMap, useLoadScript, Autocomplete } from '@react-google-maps/api';
+import axios from 'axios';
 import moment from 'moment';
 import MarkerWithInfoWindow from './MarkerWithInfoWindow';
 import AddMarker from './containers/AddMarker';
@@ -28,19 +36,51 @@ function App() {
     libraries,
   });
   if (!isLoaded) return <div className="App">Loading...</div>;
-  return <Map />;
+  // Create a client
+  const queryClient = new QueryClient();
+  return (
+    // Provide the client to your App
+    <QueryClientProvider client={queryClient}>
+      <Map />
+    </QueryClientProvider>
+  );
 }
 
 function Map() {
-  const [markers, setMarkers] = useState(markerData);
+  const [markers, setMarkers] = useState([]);
   const center2 = useMemo(() => ({ lat: 41.2709, lng: -73.7776 }), []);
   const [center3, setCenter3] = useState(center2);
   const [inputValue, setInputValue] = useState('');
   const [autocomplete, setAutocomplete] = useState(null);
   const [map, setMap] = useState(null);
+
+  useEffect(() => {
+    getMarkers();
+  }, [setMarkers]);
+
+  const {markerData, isLoading, refetch} = useQuery(["markerQuery"], () => {
+    
+  })
+
+
   function onLoad(auto) {
     setAutocomplete(auto);
   }
+
+  function getMarkers() {
+    axios.get('http://localhost:8000/markers').then((data) => {
+      console.log(data.data);
+      setMarkers(data.data);
+    });
+  }
+
+  function postMarker(marker) {
+    axios.post('http://localhost:8000/markers', marker).then((data) => {
+      console.log(data.data);
+      setMarkers(data.data);
+    });
+  }
+
   async function onPlaceChanged() {
     if (autocomplete !== null) {
       // console.log(autocomplete.getPlace().geometry.location.lat());
@@ -65,13 +105,21 @@ function Map() {
 
   const addMarker = useCallback(
     (newMarker) => {
-      const newMarkerData = {
-        pos: { lat: newMarker.lat, lng: newMarker.lng },
-        description: newMarker.description,
-        species: newMarker.species,
-        time: moment().format('MMMM Do YYYY, h:mm:ss a'),
-      };
-      setMarkers((currMarkers) => [...currMarkers, newMarkerData]);
+      axios.post('http://localhost:8000/markers', newMarker).then((data) => {
+        // console.log(data.data);
+        getMarkers();
+        setCenter3({
+          lat: data.data.lat,
+          lng: data.data.lng,
+        });
+      });
+      // const newMarkerData = {
+      //   pos: { lat: newMarker.lat, lng: newMarker.lng },
+      //   description: newMarker.description,
+      //   species: newMarker.species,
+      //   time: moment().format('MMMM Do YYYY, h:mm:ss a'),
+      // };
+      // setMarkers((currMarkers) => [...currMarkers, newMarkerData]);
     },
     [setMarkers]
   );
@@ -124,7 +172,7 @@ function Map() {
             time={marker.time}
             species={marker.species}
             description={marker.description}
-            key={i}
+            key={marker._id}
           />
         ))}
       </GoogleMap>
