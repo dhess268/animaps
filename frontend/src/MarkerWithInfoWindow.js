@@ -5,6 +5,7 @@ export default function MarkerWithInfoWindow(props) {
   const [isOpen, setIsOpen] = useState(false);
 
   function onToggleOpen() {
+    props.onMarkerClick(props.position.lat, props.position.lng);
     setIsOpen((current) => !current);
   }
 

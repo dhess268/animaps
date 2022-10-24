@@ -6,29 +6,13 @@ import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+
 import { GoogleMap, useLoadScript, Autocomplete } from '@react-google-maps/api';
 import axios from 'axios';
-import moment from 'moment';
 import MarkerWithInfoWindow from './MarkerWithInfoWindow';
 import AddMarker from './containers/AddMarker';
 
-const markerData = [
-  {
-    pos: { lat: 44, lng: -80 },
-    description: 'This is a marker where an animal could have been spotted',
-    species: 'cat',
-    time: 'Jan 1st 1998',
-  },
-  {
-    pos: {
-      lat: 41.2709,
-      lng: -73.7776,
-    },
-    description: 'This is a marker where an animal could have been spotted',
-    species: 'dog',
-    time: 'Jan 1st 1998',
-  },
-];
 const libraries = ['places'];
 function App() {
   const { isLoaded } = useLoadScript({
@@ -42,56 +26,62 @@ function App() {
     // Provide the client to your App
     <QueryClientProvider client={queryClient}>
       <Map />
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
 
 function Map() {
-  const [markers, setMarkers] = useState([]);
   const center2 = useMemo(() => ({ lat: 41.2709, lng: -73.7776 }), []);
   const [center3, setCenter3] = useState(center2);
   const [inputValue, setInputValue] = useState('');
   const [autocomplete, setAutocomplete] = useState(null);
   const [map, setMap] = useState(null);
 
-  useEffect(() => {
-    getMarkers();
-  }, [setMarkers]);
+  // useEffect(() => {
+  //   getMarkers();
+  // }, [setMarkers]);
 
-  const {markerData, isLoading, refetch} = useQuery(["markerQuery"], () => {
-    
-  })
+  const { data, isLoading, isError, refetch } = useQuery(
+    ['markerQuery'],
+    async () => {
+      const markerData = await getMarkers();
+      return markerData;
+    }
+  );
 
+  // this will mutate the SERVER side data and then on success we can do stuff
+  const { mutate } = useMutation(
+    async (newMarker) => {
+      await postMarker(newMarker);
+    },
+    {
+      onSuccess: () => refetch(),
+    }
+  );
 
   function onLoad(auto) {
     setAutocomplete(auto);
   }
 
   function getMarkers() {
-    axios.get('http://localhost:8000/markers').then((data) => {
-      console.log(data.data);
-      setMarkers(data.data);
-    });
+    return axios
+      .get('http://localhost:8000/markers')
+      .then((serverData) => serverData.data);
   }
 
   function postMarker(marker) {
-    axios.post('http://localhost:8000/markers', marker).then((data) => {
-      console.log(data.data);
-      setMarkers(data.data);
-    });
+    return axios.post('http://localhost:8000/markers', marker);
   }
 
   async function onPlaceChanged() {
     if (autocomplete !== null) {
-      // console.log(autocomplete.getPlace().geometry.location.lat());
-      // console.log(autocomplete.getPlace().geometry.location.lng());
       setCenter3({
         lat: autocomplete.getPlace().geometry.location.lat(),
         lng: autocomplete.getPlace().geometry.location.lng(),
       });
 
       setInputValue('');
-      // console.log(map);
     } else {
       console.log('Autocomplete is not loaded yet!');
     }
@@ -103,30 +93,28 @@ function Map() {
     }
   }
 
-  const addMarker = useCallback(
-    (newMarker) => {
-      axios.post('http://localhost:8000/markers', newMarker).then((data) => {
-        // console.log(data.data);
-        getMarkers();
-        setCenter3({
-          lat: data.data.lat,
-          lng: data.data.lng,
-        });
+  function handleCenterAndZoom(lat, lng) {
+    debugger;
+    if (map) {
+      map.setZoom(16);
+      setCenter3({
+        lat,
+        lng,
       });
-      // const newMarkerData = {
-      //   pos: { lat: newMarker.lat, lng: newMarker.lng },
-      //   description: newMarker.description,
-      //   species: newMarker.species,
-      //   time: moment().format('MMMM Do YYYY, h:mm:ss a'),
-      // };
-      // setMarkers((currMarkers) => [...currMarkers, newMarkerData]);
-    },
-    [setMarkers]
-  );
+    }
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>An error has occured. Please reload the page</div>;
+  }
 
   return (
     <div className="map-container">
-      <AddMarker addMarker={addMarker} />
+      <AddMarker addMarker={mutate} />
       <GoogleMap
         zoom={16}
         center={center3}
@@ -166,12 +154,13 @@ function Map() {
             value={inputValue}
           />
         </Autocomplete>
-        {markers.map((marker, i) => (
+        {data.map((marker, i) => (
           <MarkerWithInfoWindow
-            position={marker.pos}
+            position={{ lat: marker.lat, lng: marker.lng }}
             time={marker.time}
             species={marker.species}
             description={marker.description}
+            onMarkerClick={(lat, lng) => handleCenterAndZoom(lat, lng)}
             key={marker._id}
           />
         ))}
