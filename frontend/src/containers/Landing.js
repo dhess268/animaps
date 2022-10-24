@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Landing() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -16,6 +18,7 @@ export default function Landing() {
         // sets token into local storage upon successful login
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userID', response.data.userID);
+        navigate('/map');
       })
       .catch((error) => {
         console.log(error);
