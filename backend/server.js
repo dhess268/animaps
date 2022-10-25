@@ -8,6 +8,7 @@ const cookieSession = require("cookie-session");
 const session = require("express-session");
 const mainRoutes = require("./routes/main");
 const userRoutes = require("./routes/users");
+const markerRoutes = require('./routes/markers')
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -39,6 +40,7 @@ app.use("/", mainRoutes);
 
 app.use("/user", userRoutes);
 
+app.use("/markers", markerRoutes)
 
 if (process.env.NODE_ENV === "production") {
   // Express will serve up production assets

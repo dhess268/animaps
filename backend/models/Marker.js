@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const MarkerSchema = new Schema({
   lat: { type: Number, required: true },
   lng: { type: Number, required: true },
-  tags: [{ type: String, required: true }],
+  // tags: [{ type: String, required: true }],
+  time: {type: String, required: true},
   description: { type: String, required: true },
   species: { type: String, required: true }
 });

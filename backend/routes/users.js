@@ -46,7 +46,7 @@ router.post("/", function (req, res, next) {
       avatarUrl,
       password,
     } = req.body;
-
+    
     const newUser = new User({
       username,
       firstname,
