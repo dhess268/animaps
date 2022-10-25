@@ -109,6 +109,7 @@ function Map() {
         onCenterChanged={() => handleCenterChange()}
         onLoad={(thisMap) => setMap(thisMap)}
         // ref={(maap) => setMap(maap)}
+        options={{ gestureHandling: 'greedy' }}
       >
         <Autocomplete
           onLoad={(auto) => onLoad(auto)}
