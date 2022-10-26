@@ -143,6 +143,7 @@ function Map() {
             time={marker.time}
             species={marker.species}
             description={marker.description}
+            image={marker.image}
             onMarkerClick={(id) => openMarkerInfoWindow(id)}
             key={marker._id}
             id={marker._id}
@@ -163,6 +164,10 @@ function Map() {
               <p>
                 {openMarker.description || 'Description of sighting not found'}
               </p>
+              <img
+                src={openMarker.image.url}
+                alt={`Spotted ${openMarker.species}`}
+              />
             </div>
           </InfoWindowF>
         )}
