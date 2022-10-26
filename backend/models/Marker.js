@@ -8,7 +8,15 @@ const MarkerSchema = new Schema({
   // tags: [{ type: String, required: true }],
   time: {type: String, required: true},
   description: { type: String, required: true },
-  species: { type: String, required: true }
+  species: { type: String, required: true },
+  image: {
+    public_id: {
+      type:String
+    },
+    url: {
+      type:String
+    }
+  }
 });
 
 

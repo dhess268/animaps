@@ -7,6 +7,10 @@ export default function AddMarker({ addMarker }) {
   const [species, setSpecies] = useState('');
   const [description, setDescription] = useState('');
   const [autocompleteInput, setAutocompleteInput] = useState('');
+  const [fileInput, setFileInput] = useState('');
+  const [selectedFile, setSelectedFile] = useState('');
+  const [previewSource, setPreviewSource] = useState('');
+
   function handlePlaceSelected(selectedPlace) {
     const lat = selectedPlace.geometry.location.lat();
     const lng = selectedPlace.geometry.location.lng();
@@ -19,7 +23,8 @@ export default function AddMarker({ addMarker }) {
       enteredPlace.lat &&
       enteredPlace.lng &&
       enteredSpecies &&
-      enteredDescription
+      enteredDescription &&
+      selectedFile
     ) {
       return true;
     }
@@ -34,16 +39,27 @@ export default function AddMarker({ addMarker }) {
         species,
         description,
       });
-      addMarker({
-        lat: place.lat,
-        lng: place.lng,
-        species,
-        description,
-      });
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
+      reader.onloadend = () => {
+        addMarker({
+          lat: place.lat,
+          lng: place.lng,
+          species,
+          description,
+          image: reader.result,
+        });
+      };
+      reader.onerror = () => {
+        console.error('something went wrong!');
+      };
+
       setSpecies('');
       setDescription('');
       setPlace({ lat: null, lng: null });
       setAutocompleteInput('');
+      setFileInput('');
+      setPreviewSource('');
     }
   }
 
@@ -51,6 +67,20 @@ export default function AddMarker({ addMarker }) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
+  function handleInputchange(event) {
+    const file = event.target.files[0];
+    previewFile(file);
+    setSelectedFile(file);
+    setFileInput(event.target.value);
+  }
+
+  function previewFile(file) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
+  }
   return (
     <div className="form__container" onSubmit={(e) => handleReport(e)}>
       <h2>Report an animal sighting</h2>
@@ -98,6 +128,20 @@ export default function AddMarker({ addMarker }) {
           value={autocompleteInput}
           onChange={(e) => setAutocompleteInput(e.target.value)}
         />
+        <input
+          type="file"
+          name="image"
+          onChange={(e) => handleInputchange(e)}
+          value={fileInput}
+          accept="image/png, image/jpeg"
+        />
+        {previewSource && (
+          <img
+            src={previewSource}
+            alt="found animal"
+            style={{ height: '300px' }}
+          />
+        )}
         <button type="submit">Report</button>
       </form>
     </div>
