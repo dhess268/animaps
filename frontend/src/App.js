@@ -27,7 +27,7 @@ function App() {
     const token = localStorage.getItem('token');
     if (token) {
       axios
-        .get('http://localhost:8000/auth/current_user', {
+        .get('/auth/current_user', {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {

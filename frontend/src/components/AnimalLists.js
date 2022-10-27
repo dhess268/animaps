@@ -15,7 +15,7 @@ export default function AnimalList() {
     const token = localStorage.getItem('token');
     if (token) {
       axios
-        .get('http://localhost:8000/auth/current_user', {
+        .get('/auth/current_user', {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -27,7 +27,7 @@ export default function AnimalList() {
           navigate('/login');
         });
       axios
-        .get('http://localhost:8000/markers')
+        .get('/markers')
         .then((serverData) => setMarkerData(serverData.data));
     } else {
       navigate('/');

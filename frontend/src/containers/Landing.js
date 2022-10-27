@@ -13,7 +13,7 @@ export default function Landing() {
     const token = localStorage.getItem('token');
     if (token) {
       axios
-        .get('http://localhost:8000/auth/current_user', {
+        .get('/auth/current_user', {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -29,7 +29,7 @@ export default function Landing() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const url = 'http://localhost:8000/auth/signin';
+    const url = '/auth/signin';
     axios
       .post(url, { username, password })
       .then((response) => {

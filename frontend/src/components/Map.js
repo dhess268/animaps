@@ -40,13 +40,11 @@ function Map({ userAddress }) {
   }
 
   function getMarkers() {
-    return axios
-      .get('http://localhost:8000/markers')
-      .then((serverData) => serverData.data);
+    return axios.get('/markers').then((serverData) => serverData.data);
   }
 
   function postMarker(marker) {
-    return axios.post('http://localhost:8000/markers', marker);
+    return axios.post('/markers', marker);
   }
 
   async function onPlaceChanged() {
