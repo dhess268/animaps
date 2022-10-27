@@ -33,12 +33,6 @@ const jwtOptions = {
 
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
   User.findById(payload.sub)
-    .populate({
-      path: 'organization',
-      populate: {
-        path: 'orgBoards orgMembers',
-      },
-    })
     .exec((err, user) => {
       if (err) {
         return done(err, false);

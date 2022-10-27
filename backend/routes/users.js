@@ -24,7 +24,6 @@ router.get("/", requireAuth, function (req, res, next) {
 router.get("/:userId", requireAuth, function (req, res, next) {
   const id = req.params.userId;
   User.findById(id)
-    .populate("organization")
     .exec((err, user) => {
       if (err) {
         res.status(400).send(err);
@@ -45,6 +44,8 @@ router.post("/", function (req, res, next) {
       email,
       avatarUrl,
       password,
+      addressString,
+      addressLatLng
     } = req.body;
     
     const newUser = new User({
@@ -53,7 +54,9 @@ router.post("/", function (req, res, next) {
       lastname,
       email,
       avatarUrl,
-      password
+      password,
+      addressString,
+      addressLatLng
     })
     
     newUser .setPassword(password)
@@ -67,7 +70,7 @@ router.post("/", function (req, res, next) {
     res
       .status(401)
       .send(
-        "username, firstname, lastname, email and password are required fields and cannot be empty"
+        "username, firstname, lastname, email, address and password are required fields and cannot be empty"
       );
   }
 });

@@ -28,9 +28,9 @@ exports.currentUser = function (req, res) {
     firstname: req.user.firstname,
     lastname: req.user.lastname,
     email: req.user.email,
-    phone: req.user.phone,
     avatarUrl: req.user.avatarUrl,
-    organization: req.user.organization,
+    addressString: req.user.addressString,
+    addressLatLng: req.user.addressLatLng,
     token: tokenForUser(req.user),
   };
 

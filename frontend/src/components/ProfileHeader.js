@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export default function Header({ username }) {
+export default function ProfileHeader() {
   const navigate = useNavigate();
   function handleLogout() {
     localStorage.removeItem('token');
@@ -13,31 +13,24 @@ export default function Header({ username }) {
     navigate('/profile');
   }
 
-  function handleListClick() {
-    navigate('/listings');
+  function handleMapNavigate() {
+    navigate('/map');
   }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
         <a className="navbar-brand" href="#">
           Animaps
         </a>
+
         <button
-          type="button"
           className="btn btn-outline-success"
-          onClick={() => handleListClick()}
+          type="button"
+          onClick={() => handleMapNavigate()}
         >
-          Animals Listing
+          Map
         </button>
-        {username && (
-          <button
-            type="button"
-            className="btn btn-outline-success"
-            onClick={() => handleProfileClick()}
-          >
-            {username}'s Profile
-          </button>
-        )}
         <button
           className="btn btn-outline-success"
           type="button"
@@ -49,7 +42,3 @@ export default function Header({ username }) {
     </nav>
   );
 }
-
-Header.propTypes = {
-  username: PropTypes.string,
-};

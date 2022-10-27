@@ -34,7 +34,8 @@ try {
     lng,
     species,
     description,
-    image
+    image,
+    addressString
   } = req.body;
 
   // gets the image's size in bytes
@@ -62,7 +63,8 @@ try {
     image: {
       public_id: result.public_id,
       url: result.secure_url
-    }
+    },
+    addressString
   })
 
   newMarker.save((err) => {

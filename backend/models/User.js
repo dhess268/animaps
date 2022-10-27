@@ -8,6 +8,11 @@ const UserSchema = new Schema({
   lastname: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   avatarUrl: { type: String, required: false },
+  addressString: { type: String, required: true },
+  addressLatLng: {
+    lat: {type: Number},
+    lng: {type: Number}
+  },
   hash: String,
   salt: String,
 });

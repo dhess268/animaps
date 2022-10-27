@@ -14,6 +14,7 @@ export default function AddMarker({ addMarker }) {
   function handlePlaceSelected(selectedPlace) {
     const lat = selectedPlace.geometry.location.lat();
     const lng = selectedPlace.geometry.location.lng();
+    console.log(selectedPlace);
     setPlace({ lat, lng });
     setAutocompleteInput(selectedPlace.formatted_address);
   }
@@ -48,6 +49,7 @@ export default function AddMarker({ addMarker }) {
           species,
           description,
           image: reader.result,
+          addressString: autocompleteInput,
         });
       };
       reader.onerror = () => {
@@ -68,10 +70,17 @@ export default function AddMarker({ addMarker }) {
   }
 
   function handleInputchange(event) {
-    const file = event.target.files[0];
-    previewFile(file);
-    setSelectedFile(file);
-    setFileInput(event.target.value);
+    // allows site to not crash when the user doesn't select any picture
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      previewFile(file);
+      setSelectedFile(file);
+      setFileInput(event.target.value);
+    } else {
+      setSelectedFile('');
+      setFileInput('');
+      setPreviewSource('');
+    }
   }
 
   function previewFile(file) {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +8,25 @@ export default function Landing() {
   const [errorToShow, setErrorToShow] = useState('');
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      axios
+        .get('http://localhost:8000/auth/current_user', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          console.log('fetchuseraction', response.data);
+          localStorage.setItem('token', response.data.token);
+          navigate('/map');
+        })
+        .catch((error) => {
+          localStorage.clear();
+        });
+    }
+  }, [navigate]);
+
   function handleSubmit(e) {
     e.preventDefault();
     const url = 'http://localhost:8000/auth/signin';

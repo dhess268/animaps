@@ -1,22 +1,19 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
-
+import PropTypes from 'prop-types';
 import { GoogleMap, Autocomplete, InfoWindowF } from '@react-google-maps/api';
 import axios from 'axios';
+import haversine from 'haversine-distance';
 import MarkerWithInfoWindow from './MarkerWithInfoWindow';
 import AddMarker from './AddMarker';
 
-function Map() {
-  const center2 = useMemo(() => ({ lat: 41.2709, lng: -73.7776 }), []);
-  const [center3, setCenter3] = useState(center2);
+function Map({ userAddress }) {
+  const [center3, setCenter3] = useState(userAddress);
   const [inputValue, setInputValue] = useState('');
   const [autocomplete, setAutocomplete] = useState(null);
   const [map, setMap] = useState(null);
   const [openMarker, setOpenMarker] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  // useEffect(() => {
-  //   getMarkers();
-  // }, [setMarkers]);
 
   const { data, isLoading, isError, refetch } = useQuery(
     ['markerQuery'],
@@ -35,7 +32,9 @@ function Map() {
       onSuccess: () => refetch(),
     }
   );
-
+  useEffect(() => {
+    setCenter3(userAddress);
+  }, [userAddress]);
   function onLoad(auto) {
     setAutocomplete(auto);
   }
@@ -97,83 +96,90 @@ function Map() {
   return (
     <div className="map-container">
       <AddMarker addMarker={mutate} />
-      <GoogleMap
-        zoom={16}
-        center={center3}
-        mapContainerStyle={{
-          height: '50vh',
-          width: '50vw',
-        }}
-        clickableIcons={false}
-        // onClick={(e) => console.log(e.latLng.lat())}
-        onCenterChanged={() => handleCenterChange()}
-        onLoad={(thisMap) => setMap(thisMap)}
-        // ref={(maap) => setMap(maap)}
-        options={{ gestureHandling: 'greedy' }}
-      >
-        <Autocomplete
-          onLoad={(auto) => onLoad(auto)}
-          onPlaceChanged={() => onPlaceChanged()}
+      {center3 && (
+        <GoogleMap
+          zoom={16}
+          center={center3}
+          mapContainerStyle={{
+            height: '50vh',
+            width: '50vw',
+          }}
+          clickableIcons={false}
+          // onClick={(e) => console.log(e.latLng.lat())}
+          onCenterChanged={() => handleCenterChange()}
+          onLoad={(thisMap) => setMap(thisMap)}
+          // ref={(maap) => setMap(maap)}
+          options={{ gestureHandling: 'greedy' }}
         >
-          <input
-            type="text"
-            placeholder="Search for a location"
-            style={{
-              boxSizing: `border-box`,
-              border: `1px solid transparent`,
-              width: `240px`,
-              height: `32px`,
-              padding: `0 12px`,
-              borderRadius: `3px`,
-              boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-              fontSize: `14px`,
-              outline: `none`,
-              textOverflow: `ellipses`,
-              position: 'absolute',
-              left: '50%',
-              marginLeft: '-120px',
-            }}
-            onChange={(e) => setInputValue(e.value)}
-            value={inputValue}
-          />
-        </Autocomplete>
-        {data.map((marker, i) => (
-          <MarkerWithInfoWindow
-            position={{ lat: marker.lat, lng: marker.lng }}
-            time={marker.time}
-            species={marker.species}
-            description={marker.description}
-            image={marker.image}
-            onMarkerClick={(id) => openMarkerInfoWindow(id)}
-            key={marker._id}
-            id={marker._id}
-          />
-        ))}
-
-        {isOpen && (
-          <InfoWindowF
-            onCloseClick={() => setIsOpen(false)}
-            key={openMarker._id}
-            position={{ lat: openMarker.lat, lng: openMarker.lng }}
+          <Autocomplete
+            onLoad={(auto) => onLoad(auto)}
+            onPlaceChanged={() => onPlaceChanged()}
           >
-            <div>
-              <h3>{openMarker.time || 'Error: Time not noted'}</h3>
-              <span>
-                Species: {openMarker.species || 'Error: Species not noted'}
-              </span>
-              <p>
-                {openMarker.description || 'Description of sighting not found'}
-              </p>
-              <img
-                src={openMarker.image.url}
-                alt={`Spotted ${openMarker.species}`}
-              />
-            </div>
-          </InfoWindowF>
-        )}
-      </GoogleMap>
+            <input
+              type="text"
+              placeholder="Search for a location"
+              style={{
+                boxSizing: `border-box`,
+                border: `1px solid transparent`,
+                width: `240px`,
+                height: `32px`,
+                padding: `0 12px`,
+                borderRadius: `3px`,
+                boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+                fontSize: `14px`,
+                outline: `none`,
+                textOverflow: `ellipses`,
+                position: 'absolute',
+                left: '50%',
+                marginLeft: '-120px',
+              }}
+              onChange={(e) => setInputValue(e.value)}
+              value={inputValue}
+            />
+          </Autocomplete>
+          {data.map((marker, i) => (
+            <MarkerWithInfoWindow
+              position={{ lat: marker.lat, lng: marker.lng }}
+              time={marker.time}
+              species={marker.species}
+              description={marker.description}
+              image={marker.image}
+              onMarkerClick={(id) => openMarkerInfoWindow(id)}
+              key={marker._id}
+              id={marker._id}
+            />
+          ))}
+
+          {isOpen && (
+            <InfoWindowF
+              onCloseClick={() => setIsOpen(false)}
+              key={openMarker._id}
+              position={{ lat: openMarker.lat, lng: openMarker.lng }}
+            >
+              <div>
+                <h3>{openMarker.time || 'Error: Time not noted'}</h3>
+                <span>
+                  Species: {openMarker.species || 'Error: Species not noted'}
+                </span>
+                <p>
+                  {openMarker.description ||
+                    'Description of sighting not found'}
+                </p>
+                <img
+                  src={openMarker.image.url}
+                  alt={`Spotted ${openMarker.species}`}
+                />
+              </div>
+            </InfoWindowF>
+          )}
+        </GoogleMap>
+      )}
     </div>
   );
 }
 
 export default Map;
+
+Map.propTypes = {
+  userAddress: PropTypes.object,
+};
