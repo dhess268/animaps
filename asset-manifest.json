@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/animaps/static/css/main.bcdd192c.css",
+    "main.js": "/animaps/static/js/main.3a4ec77b.js",
+    "index.html": "/animaps/index.html",
+    "main.bcdd192c.css.map": "/animaps/static/css/main.bcdd192c.css.map",
+    "main.3a4ec77b.js.map": "/animaps/static/js/main.3a4ec77b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bcdd192c.css",
+    "static/js/main.3a4ec77b.js"
+  ]
+}
