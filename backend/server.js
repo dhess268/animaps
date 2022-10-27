@@ -9,12 +9,14 @@ const session = require("express-session");
 const mainRoutes = require("./routes/main");
 const userRoutes = require("./routes/users");
 const markerRoutes = require('./routes/markers')
+var cors = require('cors')
 
 const app = express();
 const port = process.env.PORT || 8000;
 
 connectDB();
 
+app.use(cors())
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
