@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/animaps/static/css/main.bcdd192c.css",
-    "main.js": "/animaps/static/js/main.0fbed3a9.js",
+    "main.js": "/animaps/static/js/main.4f361c87.js",
     "index.html": "/animaps/index.html",
     "main.bcdd192c.css.map": "/animaps/static/css/main.bcdd192c.css.map",
-    "main.0fbed3a9.js.map": "/animaps/static/js/main.0fbed3a9.js.map"
+    "main.4f361c87.js.map": "/animaps/static/js/main.4f361c87.js.map"
   },
   "entrypoints": [
     "static/css/main.bcdd192c.css",
-    "static/js/main.0fbed3a9.js"
+    "static/js/main.4f361c87.js"
   ]
 }
