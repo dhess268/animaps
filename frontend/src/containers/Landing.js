@@ -13,7 +13,7 @@ export default function Landing() {
     const token = localStorage.getItem('token');
     if (token) {
       axios
-        .get('/auth/current_user', {
+        .get('https://animaps-production.up.railway.app/auth/current_user', {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -29,7 +29,7 @@ export default function Landing() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const url = '/auth/signin';
+    const url = 'https://animaps-production.up.railway.app/auth/signin';
     axios
       .post(url, { username, password })
       .then((response) => {

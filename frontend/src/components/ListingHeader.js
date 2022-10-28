@@ -31,6 +31,13 @@ export default function ListingHeader({ username }) {
         >
           Map
         </button>
+        <button
+          type="button"
+          className="btn btn-outline-success"
+          onClick={() => navigate('/listings')}
+        >
+          Animal Listings
+        </button>
         {username && (
           <button
             type="button"

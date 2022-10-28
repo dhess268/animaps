@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export default function ProfileHeader() {
+export default function ProfileHeader(props) {
   const navigate = useNavigate();
   function handleLogout() {
     localStorage.removeItem('token');
@@ -30,6 +30,20 @@ export default function ProfileHeader() {
           onClick={() => handleMapNavigate()}
         >
           Map
+        </button>
+        <button
+          className="btn btn-outline-success"
+          type="button"
+          onClick={() => navigate('/listings')}
+        >
+          Animal Listings
+        </button>
+        <button
+          className="btn btn-outline-success"
+          type="button"
+          onClick={() => navigate('/profile')}
+        >
+          {props.username}'s Profile
         </button>
         <button
           className="btn btn-outline-success"

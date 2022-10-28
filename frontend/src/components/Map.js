@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { GoogleMap, Autocomplete, InfoWindowF } from '@react-google-maps/api';
 import axios from 'axios';
 import haversine from 'haversine-distance';
+import { ThreeCircles } from 'react-loader-spinner';
 import MarkerWithInfoWindow from './MarkerWithInfoWindow';
 import AddMarker from './AddMarker';
 
@@ -40,11 +41,16 @@ function Map({ userAddress }) {
   }
 
   function getMarkers() {
-    return axios.get('/markers').then((serverData) => serverData.data);
+    return axios
+      .get('https://animaps-production.up.railway.app/markers')
+      .then((serverData) => serverData.data);
   }
 
   function postMarker(marker) {
-    return axios.post('/markers', marker);
+    return axios.post(
+      'https://animaps-production.up.railway.app/markers',
+      marker
+    );
   }
 
   async function onPlaceChanged() {
@@ -84,7 +90,20 @@ function Map({ userAddress }) {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <ThreeCircles
+        height="100"
+        width="100"
+        color="#4fa94d"
+        wrapperStyle={{}}
+        wrapperClass="flex-d justify-content-center align-items-center h-100"
+        visible
+        ariaLabel="three-circles-rotating"
+        outerCircleColor=""
+        innerCircleColor=""
+        middleCircleColor=""
+      />
+    );
   }
 
   if (isError) {

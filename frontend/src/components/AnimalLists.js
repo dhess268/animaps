@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import haversine from 'haversine-distance';
+import { ThreeCircles } from 'react-loader-spinner';
 import ListingHeader from './ListingHeader';
 
 export default function AnimalList() {
@@ -15,7 +16,7 @@ export default function AnimalList() {
     const token = localStorage.getItem('token');
     if (token) {
       axios
-        .get('/auth/current_user', {
+        .get('https://animaps-production.up.railway.app/auth/current_user', {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -27,7 +28,7 @@ export default function AnimalList() {
           navigate('/login');
         });
       axios
-        .get('/markers')
+        .get('https://animaps-production.up.railway.app/markers')
         .then((serverData) => setMarkerData(serverData.data));
     } else {
       navigate('/');
@@ -114,7 +115,7 @@ export default function AnimalList() {
 
   return userData && sortedByDistance ? (
     <div>
-      <ListingHeader username={userData.username} />
+      {/* <ListingHeader username={userData.username} /> */}
       <div className="col-md-8 offset-md-2">
         <div className="row">
           <label htmlFor="species" className="form__label col-md-2">
@@ -140,9 +141,17 @@ export default function AnimalList() {
       </div>
     </div>
   ) : (
-    <div>
-      <ListingHeader username="..." />
-      loading...
-    </div>
+    <ThreeCircles
+      height="100"
+      width="100"
+      color="#4fa94d"
+      wrapperStyle={{}}
+      wrapperClass="flex-d justify-content-center align-items-center h-100"
+      visible
+      ariaLabel="three-circles-rotating"
+      outerCircleColor=""
+      innerCircleColor=""
+      middleCircleColor=""
+    />
   );
 }

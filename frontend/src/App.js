@@ -27,7 +27,7 @@ function App() {
     const token = localStorage.getItem('token');
     if (token) {
       axios
-        .get('/auth/current_user', {
+        .get('https://animaps-production.up.railway.app/auth/current_user', {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -50,7 +50,6 @@ function App() {
   return (
     // Provide the client to your App
     <QueryClientProvider client={queryClient}>
-      <Header username={userData.username} />
       <Map userAddress={userData.addressLatLng} />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
