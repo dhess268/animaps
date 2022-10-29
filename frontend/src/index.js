@@ -18,7 +18,7 @@ root.render(
       <Routes>
         <Route path="/" element={<Outlet />}>
           <Route index element={<Landing />} />
-          <Route element={<Register />} />
+          <Route path="register" element={<Register />} />
           <Route
             element={
               <>

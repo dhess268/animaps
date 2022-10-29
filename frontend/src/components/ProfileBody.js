@@ -1,9 +1,44 @@
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import ProfileHeader from './ProfileHeader';
 
-export default function ProfileBody() {
-  const navigate = useNavigate();
+export default function ProfileBody({ user }) {
+  return (
+    <section className="profile__section">
+      <section className="profile__inner">
+        <h1>My Personal Info</h1>
 
-  return <div>profile body</div>;
+        <span>
+          <strong>Name: </strong>
+          {user.firstname} {user.lastname}
+        </span>
+        <br />
+        <span>
+          <strong>Address: </strong>
+          {user.addressString}
+        </span>
+        <br />
+        <span>
+          <strong>Email: </strong>
+          {user.email}
+        </span>
+
+        <section />
+      </section>
+    </section>
+  );
 }
+ProfileBody.propTypes = {
+  user: PropTypes.object,
+};
+
+// username
+// NO password lol
+// addressString
+//  firstname
+//  lastname
+//  email
+//
+//
+//
+//
+//

@@ -75,6 +75,9 @@ export default function Landing() {
         <button type="submit" className="btn btn-primary col-md-2 offset-md-5">
           Sign in
         </button>
+        <p className="col-md-2 offset-md-5">
+          No account? click <a href="/animaps#/register">here</a> to register!
+        </p>
         {errorToShow ? (
           <div className="col-md-4 offset-md-4 text-center border border-2 rounded bg-light border-danger mt-3">
             Incorrect username or password please try again.

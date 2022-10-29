@@ -92,67 +92,69 @@ export default function AddMarker({ addMarker }) {
   }
   return (
     <div className="form__container" onSubmit={(e) => handleReport(e)}>
-      <h2>Report an animal sighting</h2>
-      <form className="form__inner">
-        <p>
-          <label htmlFor="species" className="form__label">
-            Species
-          </label>
-          <select
-            name="pets"
-            id="pet-select"
-            onChange={(e) => setSpecies(e.target.value)}
-          >
-            <option value="">--Please choose an option--</option>
-            <option value="dog">Dog</option>
-            <option value="cat">Cat</option>
-            <option value="hamster">Hamster</option>
-            <option value="parrot">Parrot</option>
-            <option value="spider">Spider</option>
-            <option value="goldfish">Goldfish</option>
-          </select>
-        </p>
-        <p>
-          <label htmlFor="description" className="form__label">
-            Description of animal
-          </label>
-          <textarea
-            name="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </p>
+      <section className="form__inner">
+        <h2>Report an animal sighting</h2>
+        <form className="">
+          <p>
+            <label htmlFor="species" className="form__label">
+              Species
+            </label>
+            <select
+              name="pets"
+              id="pet-select"
+              onChange={(e) => setSpecies(e.target.value)}
+            >
+              <option value="">--Please choose an option--</option>
+              <option value="dog">Dog</option>
+              <option value="cat">Cat</option>
+              <option value="hamster">Hamster</option>
+              <option value="parrot">Parrot</option>
+              <option value="spider">Spider</option>
+              <option value="goldfish">Goldfish</option>
+            </select>
+          </p>
+          <p>
+            <label htmlFor="description" className="form__label">
+              Description of animal
+            </label>
+            <textarea
+              name="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </p>
 
-        <Autocomplete
-          apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY_A}
-          placeholder={`${
-            capitalizeFirstLetter(species) || 'Animal'
-          } sighting location`}
-          onPlaceSelected={(selected) => {
-            handlePlaceSelected(selected);
-          }}
-          options={{
-            types: ['address'],
-          }}
-          value={autocompleteInput}
-          onChange={(e) => setAutocompleteInput(e.target.value)}
-        />
-        <input
-          type="file"
-          name="image"
-          onChange={(e) => handleInputchange(e)}
-          value={fileInput}
-          accept="image/png, image/jpeg"
-        />
-        {previewSource && (
-          <img
-            src={previewSource}
-            alt="found animal"
-            style={{ height: '300px' }}
+          <Autocomplete
+            apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY_A}
+            placeholder={`${
+              capitalizeFirstLetter(species) || 'Animal'
+            } sighting location`}
+            onPlaceSelected={(selected) => {
+              handlePlaceSelected(selected);
+            }}
+            options={{
+              types: ['address'],
+            }}
+            value={autocompleteInput}
+            onChange={(e) => setAutocompleteInput(e.target.value)}
           />
-        )}
-        <button type="submit">Report</button>
-      </form>
+          <input
+            type="file"
+            name="image"
+            onChange={(e) => handleInputchange(e)}
+            value={fileInput}
+            accept="image/png, image/jpeg"
+          />
+          {previewSource && (
+            <img
+              src={previewSource}
+              alt="found animal"
+              style={{ height: '300px' }}
+            />
+          )}
+          <button type="submit">Report</button>
+        </form>
+      </section>
     </div>
   );
 }

@@ -114,82 +114,84 @@ function Map({ userAddress }) {
     <div className="map-container">
       <AddMarker addMarker={mutate} />
       {center3 && (
-        <GoogleMap
-          zoom={16}
-          center={center3}
-          mapContainerStyle={{
-            height: '50vh',
-            width: '50vw',
-          }}
-          clickableIcons={false}
-          // onClick={(e) => console.log(e.latLng.lat())}
-          onCenterChanged={() => handleCenterChange()}
-          onLoad={(thisMap) => setMap(thisMap)}
-          // ref={(maap) => setMap(maap)}
-          options={{ gestureHandling: 'greedy' }}
-        >
-          <Autocomplete
-            onLoad={(auto) => onLoad(auto)}
-            onPlaceChanged={() => onPlaceChanged()}
+        <div className="map">
+          <GoogleMap
+            zoom={16}
+            center={center3}
+            mapContainerStyle={{
+              height: '50vh',
+              width: '50vw',
+            }}
+            clickableIcons={false}
+            // onClick={(e) => console.log(e.latLng.lat())}
+            onCenterChanged={() => handleCenterChange()}
+            onLoad={(thisMap) => setMap(thisMap)}
+            // ref={(maap) => setMap(maap)}
+            options={{ gestureHandling: 'greedy' }}
           >
-            <input
-              type="text"
-              placeholder="Search for a location"
-              style={{
-                boxSizing: `border-box`,
-                border: `1px solid transparent`,
-                width: `240px`,
-                height: `32px`,
-                padding: `0 12px`,
-                borderRadius: `3px`,
-                boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-                fontSize: `14px`,
-                outline: `none`,
-                textOverflow: `ellipses`,
-                position: 'absolute',
-                left: '50%',
-                marginLeft: '-120px',
-              }}
-              onChange={(e) => setInputValue(e.value)}
-              value={inputValue}
-            />
-          </Autocomplete>
-          {data.map((marker, i) => (
-            <MarkerWithInfoWindow
-              position={{ lat: marker.lat, lng: marker.lng }}
-              time={marker.time}
-              species={marker.species}
-              description={marker.description}
-              image={marker.image}
-              onMarkerClick={(id) => openMarkerInfoWindow(id)}
-              key={marker._id}
-              id={marker._id}
-            />
-          ))}
-
-          {isOpen && (
-            <InfoWindowF
-              onCloseClick={() => setIsOpen(false)}
-              key={openMarker._id}
-              position={{ lat: openMarker.lat, lng: openMarker.lng }}
+            <Autocomplete
+              onLoad={(auto) => onLoad(auto)}
+              onPlaceChanged={() => onPlaceChanged()}
             >
-              <div>
-                <h3>{openMarker.time || 'Error: Time not noted'}</h3>
-                <span>
-                  Species: {openMarker.species || 'Error: Species not noted'}
-                </span>
-                <p>
-                  {openMarker.description ||
-                    'Description of sighting not found'}
-                </p>
-                <img
-                  src={openMarker.image.url}
-                  alt={`Spotted ${openMarker.species}`}
-                />
-              </div>
-            </InfoWindowF>
-          )}
-        </GoogleMap>
+              <input
+                type="text"
+                placeholder="Search for a location"
+                style={{
+                  boxSizing: `border-box`,
+                  border: `1px solid transparent`,
+                  width: `240px`,
+                  height: `32px`,
+                  padding: `0 12px`,
+                  borderRadius: `3px`,
+                  boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+                  fontSize: `14px`,
+                  outline: `none`,
+                  textOverflow: `ellipses`,
+                  position: 'absolute',
+                  left: '50%',
+                  marginLeft: '-120px',
+                }}
+                onChange={(e) => setInputValue(e.value)}
+                value={inputValue}
+              />
+            </Autocomplete>
+            {data.map((marker, i) => (
+              <MarkerWithInfoWindow
+                position={{ lat: marker.lat, lng: marker.lng }}
+                time={marker.time}
+                species={marker.species}
+                description={marker.description}
+                image={marker.image}
+                onMarkerClick={(id) => openMarkerInfoWindow(id)}
+                key={marker._id}
+                id={marker._id}
+              />
+            ))}
+
+            {isOpen && (
+              <InfoWindowF
+                onCloseClick={() => setIsOpen(false)}
+                key={openMarker._id}
+                position={{ lat: openMarker.lat, lng: openMarker.lng }}
+              >
+                <div>
+                  <h3>{openMarker.time || 'Error: Time not noted'}</h3>
+                  <span>
+                    Species: {openMarker.species || 'Error: Species not noted'}
+                  </span>
+                  <p>
+                    {openMarker.description ||
+                      'Description of sighting not found'}
+                  </p>
+                  <img
+                    src={openMarker.image.url}
+                    alt={`Spotted ${openMarker.species}`}
+                  />
+                </div>
+              </InfoWindowF>
+            )}
+          </GoogleMap>
+        </div>
       )}
     </div>
   );

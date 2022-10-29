@@ -75,3 +75,54 @@ a {
   width: 400px;
   height: 400px;
 }
+
+.profile__section {
+  margin-top: 10rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile__inner {
+  background: rgb(236, 236, 236);
+  height: 50vh;
+  padding: 60px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  border-radius: 20px;
+  box-shadow: 20px 20px rgb(25, 135, 84);
+}
+
+.profile__inner h1 {
+  font-size: 3rem;
+}
+
+.profile__inner span {
+  font-size: 2rem;
+}
+
+.form__inner {
+  background: rgb(236, 236, 236);
+  height: 50vh;
+  padding: 60px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  border-radius: 20px;
+  box-shadow: 20px 20px rgb(25, 135, 84);
+}
+
+.form__container {
+  padding-top: 50px;
+}
+.map-container {
+  padding-bottom: 50px;
+  padding-top: 100px;
+  min-height: 100%;
+}
+
+.map {
+  padding-bottom: 50px;
+}
