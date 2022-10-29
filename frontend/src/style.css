@@ -126,3 +126,12 @@ a {
 .map {
   padding-bottom: 50px;
 }
+
+.form__register {
+  display: flex;
+  flex-direction: column;
+}
+
+.form__register {
+  font-size: 1.5rem;
+}
