@@ -8,6 +8,8 @@ import { ThreeCircles } from 'react-loader-spinner';
 import MarkerWithInfoWindow from './MarkerWithInfoWindow';
 import AddMarker from './AddMarker';
 
+const daaa = 'hello there';
+
 function Map({ userAddress }) {
   const [center3, setCenter3] = useState(userAddress);
   const [inputValue, setInputValue] = useState('');
@@ -16,9 +18,8 @@ function Map({ userAddress }) {
   const [openMarker, setOpenMarker] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, isLoading, isError, refetch } = useQuery(
-    ['markerQuery'],
-    async () => getMarkers()
+  const { data, isLoading, isError, refetch } = useQuery(['markerQuery'], () =>
+    getMarkers()
   );
 
   // this will mutate the SERVER side data and then on success we can do stuff
@@ -39,9 +40,10 @@ function Map({ userAddress }) {
   }
 
   async function getMarkers() {
-    return axios
+    const res = await axios
       .get('https://animaps-production.up.railway.app/markers')
       .then((serverData) => serverData.data);
+    return res;
   }
 
   function postMarker(marker) {
