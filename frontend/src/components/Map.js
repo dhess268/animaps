@@ -18,10 +18,7 @@ function Map({ userAddress }) {
 
   const { data, isLoading, isError, refetch } = useQuery(
     ['markerQuery'],
-    async () => {
-      const markerData = await getMarkers();
-      return markerData;
-    }
+    async () => getMarkers()
   );
 
   // this will mutate the SERVER side data and then on success we can do stuff
@@ -36,11 +33,12 @@ function Map({ userAddress }) {
   useEffect(() => {
     setCenter3(userAddress);
   }, [userAddress]);
+
   function onLoad(auto) {
     setAutocomplete(auto);
   }
 
-  function getMarkers() {
+  async function getMarkers() {
     return axios
       .get('https://animaps-production.up.railway.app/markers')
       .then((serverData) => serverData.data);

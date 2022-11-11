@@ -51,7 +51,7 @@ function App() {
     // Provide the client to your App
     <QueryClientProvider client={queryClient}>
       <Map userAddress={userData.addressLatLng} />
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools initialIsOpen />
     </QueryClientProvider>
   );
 }
