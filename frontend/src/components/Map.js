@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import PropTypes from 'prop-types';
 import { GoogleMap, Autocomplete, InfoWindowF } from '@react-google-maps/api';
 import axios from 'axios';
@@ -7,8 +7,6 @@ import haversine from 'haversine-distance';
 import { ThreeCircles } from 'react-loader-spinner';
 import MarkerWithInfoWindow from './MarkerWithInfoWindow';
 import AddMarker from './AddMarker';
-
-const daaa = 'hello there';
 
 function Map({ userAddress }) {
   const [center3, setCenter3] = useState(userAddress);
@@ -18,6 +16,7 @@ function Map({ userAddress }) {
   const [openMarker, setOpenMarker] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
+  const queryClient = useQueryClient();
   const { data, isLoading, isError, refetch } = useQuery(['markerQuery'], () =>
     getMarkers()
   );
@@ -28,7 +27,7 @@ function Map({ userAddress }) {
       await postMarker(newMarker);
     },
     {
-      onSuccess: () => refetch(),
+      onSuccess: () => queryClient.invalidateQueries('markerQuery'),
     }
   );
   useEffect(() => {

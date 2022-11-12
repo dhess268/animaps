@@ -103,6 +103,7 @@ export default function AddMarker({ addMarker }) {
               name="pets"
               id="pet-select"
               onChange={(e) => setSpecies(e.target.value)}
+              value={species}
             >
               <option value="">--Please choose an option--</option>
               <option value="dog">Dog</option>

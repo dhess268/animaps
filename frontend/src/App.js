@@ -14,6 +14,8 @@ import Map from './components/Map';
 import Header from './components/Header';
 
 const libraries = ['places'];
+// Create a client (outside of App so it's completely stable and safe from rerenders)
+const queryClient = new QueryClient();
 
 function App() {
   const { isLoaded } = useLoadScript({
@@ -25,6 +27,7 @@ function App() {
   const [userData, setUserData] = useState('');
   useEffect(() => {
     const token = localStorage.getItem('token');
+
     if (token) {
       axios
         .get('https://animaps-production.up.railway.app/auth/current_user', {
@@ -45,8 +48,7 @@ function App() {
   }, [navigate]);
 
   if (!isLoaded) return <div className="App">Loading...</div>;
-  // Create a client
-  const queryClient = new QueryClient();
+
   return (
     // Provide the client to your App
     <QueryClientProvider client={queryClient}>
