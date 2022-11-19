@@ -62,7 +62,7 @@ export default function AnimalList() {
           <img
             src={marker.image.url}
             className="card-img-top card-img"
-            alt="..."
+            alt={marker.species}
           />
           <div className="card-body">
             <h3 className="card-title">
@@ -92,27 +92,49 @@ export default function AnimalList() {
   }
 
   return userData && markerData ? (
-    <div>
+    <div className="mt-3">
       {/* <ListingHeader username={userData.username} /> */}
       <div className="col-md-8 offset-md-2">
-        <div className="row">
-          <label htmlFor="species" className="form__label col-md-2">
-            Sort by Animal Type
-          </label>
-          <select
-            name="pets"
-            id="pet-select"
-            onChange={(e) => setSelectedSpecies(e.target.value)}
-            className="col-md-3"
-          >
-            <option value="">--All--</option>
-            <option value="dog">Dog</option>
-            <option value="cat">Cat</option>
-            <option value="hamster">Hamster</option>
-            <option value="parrot">Parrot</option>
-            <option value="spider">Spider</option>
-            <option value="goldfish">Goldfish</option>
-          </select>
+        <div className="row mb-4">
+          <section>
+            <label htmlFor="species" className="form__label col-md-2">
+              <strong>Sort By Animal Type</strong>
+            </label>
+            <select
+              name="pets"
+              id="pet-select"
+              onChange={(e) => setSelectedSpecies(e.target.value)}
+              className="col-md-3"
+            >
+              <option value="">--All--</option>
+              <option value="dog">Dog</option>
+              <option value="cat">Cat</option>
+              <option value="hamster">Hamster</option>
+              <option value="parrot">Parrot</option>
+              <option value="spider">Spider</option>
+              <option value="goldfish">Goldfish</option>
+            </select>
+          </section>
+
+          <section>
+            <label htmlFor="distance" className="form__label col-md-2">
+              <strong>Set Max Distance</strong>
+            </label>
+            <select
+              name="distance"
+              id="distance-select"
+              onChange={(e) => setMaxDistanceInMiles(e.target.value)}
+              className="col-md-3"
+            >
+              <option value="1">1</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="30">30</option>
+              <option value="50" selected>
+                50
+              </option>
+            </select>
+          </section>
         </div>
 
         <div className="row row-cols-1 row-cols-md-3 g-4">{renderCards()}</div>
