@@ -10,7 +10,7 @@ export default function AnimalList() {
   const [markerData, setMarkerData] = useState('');
   const [maxDistanceInMiles, setMaxDistanceInMiles] = useState(50);
   const [selectedSpecies, setSelectedSpecies] = useState('');
-
+  const [sortDistanceBy, setSortDistanceBy] = useState(-1);
   // must get user data and marker data
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -54,8 +54,12 @@ export default function AnimalList() {
       .filter((marker) => marker.species.includes(selectedSpecies));
 
     const sortedAndFilteredMarkers = filteredMarkers.sort(
-      (a, b) => a.distanceFromCenter - b.distanceFromCenter
+      (a, b) =>
+        ((b.distanceFromCenter || Number.MAX_VALUE) -
+          (a.distanceFromCenter || Number.MAX_VALUE)) *
+        sortDistanceBy
     );
+
     const cardsToDisplay = sortedAndFilteredMarkers.map((marker) => (
       <div className="col d-flex align-items-stretch" key={marker._id + 10}>
         <div className="card">
@@ -96,7 +100,7 @@ export default function AnimalList() {
       {/* <ListingHeader username={userData.username} /> */}
       <div className="col-md-8 offset-md-2">
         <div className="row mb-4">
-          <section>
+          <section className="mb-2">
             <label htmlFor="species" className="form__label col-md-2">
               <strong>Sort By Animal Type</strong>
             </label>
@@ -116,7 +120,7 @@ export default function AnimalList() {
             </select>
           </section>
 
-          <section>
+          <section className="mb-2">
             <label htmlFor="distance" className="form__label col-md-2">
               <strong>Set Max Distance</strong>
             </label>
@@ -126,13 +130,30 @@ export default function AnimalList() {
               onChange={(e) => setMaxDistanceInMiles(e.target.value)}
               className="col-md-3"
             >
-              <option value="1">1</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="30">30</option>
+              <option value="1">1 mile</option>
+              <option value="5">5 miles</option>
+              <option value="10">10 miles</option>
+              <option value="30">30 miles</option>
               <option value="50" selected>
-                50
+                50 miles
               </option>
+              <option value="100000">100000 miles</option>
+            </select>
+          </section>
+          <section>
+            <label htmlFor="sort-by" className="form__label col-md-2">
+              <strong>Sort Distance By</strong>
+            </label>
+            <select
+              name="sort-by"
+              id="distance-sort-by"
+              onChange={(e) => setSortDistanceBy(e.target.value)}
+              className="col-md-3"
+            >
+              <option value="-1" selected>
+                Closest
+              </option>
+              <option value="1">Farthest</option>
             </select>
           </section>
         </div>
