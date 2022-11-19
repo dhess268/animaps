@@ -27,7 +27,26 @@ function Map({ userAddress }) {
       await postMarker(newMarker);
     },
     {
-      onSuccess: () => queryClient.invalidateQueries('markerQuery'),
+      // onSuccess: () => queryClient.invalidateQueries('markerQuery'),
+      onSettled: () => {
+        queryClient.invalidateQueries('markerQuery');
+      },
+      onError: (err, newTodo, context) => {
+        queryClient.setQueryData('markerQuery', context.previousMarkers);
+      },
+      onMutate: async (newMarker) => {
+        // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+        await queryClient.cancelQueries('markerQuery');
+
+        // Snapshot the previous value
+        const previousMarkers = queryClient.getQueryData('markerQuery');
+
+        // Optimistically update to the new value
+        queryClient.setQueryData('markerQuery', (old) => [...old, newMarker]);
+
+        // Return a context object with the snapshotted value
+        return { previousMarkers };
+      },
     }
   );
   useEffect(() => {
@@ -111,7 +130,7 @@ function Map({ userAddress }) {
 
   return (
     <div className="map-container">
-      <AddMarker addMarker={mutate} />
+      <AddMarker addMarker={mutate} latLng={center3} />
       {center3 && (
         <div className="map">
           <GoogleMap
@@ -126,11 +145,25 @@ function Map({ userAddress }) {
             onCenterChanged={() => handleCenterChange()}
             onLoad={(thisMap) => setMap(thisMap)}
             // ref={(maap) => setMap(maap)}
-            options={{ gestureHandling: 'greedy' }}
+            options={{
+              gestureHandling: 'greedy',
+            }}
           >
             <Autocomplete
               onLoad={(auto) => onLoad(auto)}
               onPlaceChanged={() => onPlaceChanged()}
+              location={center3}
+              options={{
+                location: center3 || null,
+                radius: 20000,
+                types: ['address'],
+              }}
+              bounds={{
+                east: center3.lng - 0.1,
+                west: center3.lng + 0.1,
+                north: center3.lat + 0.1,
+                south: center3.lat - 0.1,
+              }}
             >
               <input
                 type="text"

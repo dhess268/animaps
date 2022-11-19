@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import haversine from 'haversine-distance';
 import { ThreeCircles } from 'react-loader-spinner';
-import ListingHeader from './ListingHeader';
 
 export default function AnimalList() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState('');
   const [markerData, setMarkerData] = useState('');
-  const [sortedByDistance, setSortedByDistance] = useState('');
+  const [maxDistanceInMiles, setMaxDistanceInMiles] = useState(50);
+  const [selectedSpecies, setSelectedSpecies] = useState('');
 
   // must get user data and marker data
   useEffect(() => {
@@ -22,72 +22,41 @@ export default function AnimalList() {
         .then((response) => {
           localStorage.setItem('token', response.data.token);
           setUserData(response.data);
+          const user = response.data;
+          // note: move this out of the useEffect intoa usecallback later...
+          axios
+            .get('https://animaps-production.up.railway.app/markers')
+            .then((serverData) => {
+              const newMarkers = serverData.data.map((marker) => ({
+                ...marker,
+                distanceFromCenter: (
+                  haversine(user.addressLatLng, {
+                    lat: marker.lat,
+                    lng: marker.lng,
+                  }) / 1609
+                ).toFixed(1),
+              }));
+              setMarkerData(newMarkers);
+            });
         })
         .catch((error) => {
           localStorage.clear();
           navigate('/login');
         });
-      axios
-        .get('https://animaps-production.up.railway.app/markers')
-        .then((serverData) => setMarkerData(serverData.data));
     } else {
       navigate('/');
     }
   }, [navigate]);
 
-  useEffect(() => {
-    if (userData && markerData) {
-      const newMarkers = markerData.map((marker) => ({
-        ...marker,
-        distanceFromCenter: (
-          haversine(userData.addressLatLng, {
-            lat: marker.lat,
-            lng: marker.lng,
-          }) / 1609
-        ).toFixed(1),
-      }));
-      const sortedByDistanceMarkers = newMarkers.sort(
-        (a, b) => a.distanceFromCenter - b.distanceFromCenter
-      );
-      setSortedByDistance(sortedByDistanceMarkers);
-    }
-  }, [markerData, userData]);
+  function renderCards() {
+    const filteredMarkers = markerData
+      .filter((marker) => marker.distanceFromCenter < maxDistanceInMiles)
+      .filter((marker) => marker.species.includes(selectedSpecies));
 
-  function sortByDistance(arrayOfThingsToSort) {
-    const newMarkers = arrayOfThingsToSort.map((marker) => ({
-      ...marker,
-      distanceFromCenter: (
-        haversine(userData.addressLatLng, {
-          lat: marker.lat,
-          lng: marker.lng,
-        }) / 1609
-      ).toFixed(1),
-    }));
-    const sortedByDistanceMarkers = newMarkers.sort(
+    const sortedAndFilteredMarkers = filteredMarkers.sort(
       (a, b) => a.distanceFromCenter - b.distanceFromCenter
     );
-    return sortedByDistanceMarkers;
-  }
-
-  function handlePetSelect(e) {
-    console.log(e.target.value);
-    if (e.target.value) {
-      sortByPetType(e.target.value);
-    } else {
-      setSortedByDistance(sortByDistance(markerData));
-    }
-  }
-
-  function sortByPetType(species) {
-    const sortedByAnimal = markerData.filter(
-      (marker) => marker.species === species
-    );
-
-    setSortedByDistance(sortByDistance(sortedByAnimal));
-  }
-
-  function renderCards() {
-    const cards = sortedByDistance.map((marker) => (
+    const cardsToDisplay = sortedAndFilteredMarkers.map((marker) => (
       <div className="col d-flex align-items-stretch" key={marker._id + 10}>
         <div className="card">
           <img
@@ -110,10 +79,19 @@ export default function AnimalList() {
         </div>
       </div>
     ));
-    return cards;
+    return cardsToDisplay.length > 0 ? (
+      cardsToDisplay
+    ) : (
+      <div className="col-md-6 offset-md-3 mt-5">
+        <p>
+          There are currently no animal sightings within your selected distance
+          from you! Go to the map page to add some!
+        </p>
+      </div>
+    );
   }
 
-  return userData && sortedByDistance ? (
+  return userData && markerData ? (
     <div>
       {/* <ListingHeader username={userData.username} /> */}
       <div className="col-md-8 offset-md-2">
@@ -124,7 +102,7 @@ export default function AnimalList() {
           <select
             name="pets"
             id="pet-select"
-            onChange={(e) => handlePetSelect(e)}
+            onChange={(e) => setSelectedSpecies(e.target.value)}
             className="col-md-3"
           >
             <option value="">--All--</option>

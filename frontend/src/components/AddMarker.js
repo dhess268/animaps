@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import Autocomplete from 'react-google-autocomplete';
 import PropTypes from 'prop-types';
+import GooglePlacesAutocomplete, {
+  geocodeByPlaceId,
+} from 'react-google-places-autocomplete';
 
-export default function AddMarker({ addMarker }) {
+export default function AddMarker({ addMarker, latLng }) {
   const [place, setPlace] = useState({ lat: null, lng: null });
   const [species, setSpecies] = useState('');
   const [description, setDescription] = useState('');
@@ -12,11 +14,23 @@ export default function AddMarker({ addMarker }) {
   const [previewSource, setPreviewSource] = useState('');
 
   function handlePlaceSelected(selectedPlace) {
-    const lat = selectedPlace.geometry.location.lat();
-    const lng = selectedPlace.geometry.location.lng();
-    console.log(selectedPlace);
-    setPlace({ lat, lng });
-    setAutocompleteInput(selectedPlace.formatted_address);
+    // const lat = selectedPlace.geometry.location.lat();
+    // const lng = selectedPlace.geometry.location.lng();
+    // console.log(selectedPlace);
+    // setPlace({ lat, lng });
+    // setAutocompleteInput(selectedPlace.formatted_address);
+
+    geocodeByPlaceId(selectedPlace.value.place_id)
+      .then((results) => {
+        console.log(results);
+        if (results.length > 0) {
+          const lat = results[0].geometry.location.lat();
+          const lng = results[0].geometry.location.lng();
+          console.log(results);
+          setPlace({ lat, lng });
+        }
+      })
+      .catch((error) => console.error(error));
   }
 
   function verifyInputs(enteredPlace, enteredSpecies, enteredDescription) {
@@ -90,6 +104,7 @@ export default function AddMarker({ addMarker }) {
       setPreviewSource(reader.result);
     };
   }
+  // console.log(latLng);
   return (
     <div className="form__container" onSubmit={(e) => handleReport(e)}>
       <section className="form__inner">
@@ -125,7 +140,7 @@ export default function AddMarker({ addMarker }) {
             />
           </p>
 
-          <Autocomplete
+          {/* <Autocomplete
             apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY_A}
             placeholder={`${
               capitalizeFirstLetter(species) || 'Animal'
@@ -134,17 +149,37 @@ export default function AddMarker({ addMarker }) {
               handlePlaceSelected(selected);
             }}
             options={{
+              location: { lat: 41.2728571, lng: -73.7772261 },
+              radius: 2000,
               types: ['address'],
             }}
             value={autocompleteInput}
             onChange={(e) => setAutocompleteInput(e.target.value)}
-          />
+          /> */}
           <input
             type="file"
             name="image"
             onChange={(e) => handleInputchange(e)}
             value={fileInput}
             accept="image/png, image/jpeg"
+          />
+
+          <GooglePlacesAutocomplete
+            apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY_A}
+            selectProps={{
+              value: autocompleteInput,
+              onChange: (e) => {
+                // only occurs on select
+                handlePlaceSelected(e);
+                setAutocompleteInput(e);
+              },
+              placeholder: 'Select animal sighting location',
+            }}
+            autocompletionRequest={{
+              location: latLng || null,
+              radius: 20000,
+              types: ['address'],
+            }}
           />
           {previewSource && (
             <img
@@ -162,4 +197,5 @@ export default function AddMarker({ addMarker }) {
 
 AddMarker.propTypes = {
   addMarker: PropTypes.func,
+  latLng: PropTypes.object,
 };
