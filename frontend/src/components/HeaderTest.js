@@ -21,7 +21,11 @@ export default function HeaderTest(props) {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-extend-md top__margin">
       <div className="container-fluid">
-        <button className="btn" type="button" onClick={() => navigate('/map')}>
+        <button
+          className="btn"
+          type="button"
+          onClick={() => handleMapNavigate()}
+        >
           <img src={logo} alt="logo" width={40} />
         </button>
 
