@@ -18,7 +18,7 @@ export default function Register() {
   function handlePlaceSelected(selectedPlace) {
     const lat = selectedPlace.geometry.location.lat();
     const lng = selectedPlace.geometry.location.lng();
-    console.log(selectedPlace);
+    // console.log(selectedPlace);
     setPlace({ lat, lng });
     setAutocompleteInput(selectedPlace.formatted_address);
   }
@@ -48,13 +48,13 @@ export default function Register() {
     axios
       .post('https://animaps-production.up.railway.app/user', data)
       .then((response) => {
-        console.log('fetchuseraction', response.data);
+        // console.log('fetchuseraction', response.data);
         const url = 'https://animaps-production.up.railway.app/auth/signin';
         axios
           .post(url, { username, password })
           .then((res) => {
             // shows the data returned in the payload for dev purposes
-            console.log('login action', res.data);
+            // console.log('login action', res.data);
             // sets token into local storage upon successful login
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('userID', res.data.userID);

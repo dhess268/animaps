@@ -80,7 +80,7 @@ function Map({ userAddress }) {
 
       setInputValue('');
     } else {
-      console.log('Autocomplete is not loaded yet!');
+      // console.log('Autocomplete is not loaded yet!');
     }
   }
 
