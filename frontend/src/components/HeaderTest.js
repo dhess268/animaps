@@ -21,9 +21,9 @@ export default function HeaderTest(props) {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-extend-md top__margin">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/map">
+        <button className="btn" type="button" onClick={() => navigate('/map')}>
           <img src={logo} alt="logo" width={40} />
-        </a>
+        </button>
 
         <button
           className="btn btn-outline-success"
