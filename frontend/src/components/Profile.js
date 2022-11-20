@@ -15,7 +15,7 @@ export default function Profile() {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
-          console.log('fetchuseraction', response.data);
+          // console.log('fetchuseraction', response.data);
           localStorage.setItem('token', response.data.token);
           setUserData(response.data);
         })

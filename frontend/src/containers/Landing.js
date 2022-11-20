@@ -19,7 +19,7 @@ export default function Landing() {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
-          console.log('fetchuseraction', response.data);
+          // console.log('fetchuseraction', response.data);
           localStorage.setItem('token', response.data.token);
           navigate('/map');
         })
@@ -36,7 +36,7 @@ export default function Landing() {
       .post(url, { username, password })
       .then((response) => {
         // shows the data returned in the payload for dev purposes
-        console.log('login action', response.data);
+        // console.log('login action', response.data);
         // sets token into local storage upon successful login
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userID', response.data.userID);
