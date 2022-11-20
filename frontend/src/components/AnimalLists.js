@@ -96,7 +96,7 @@ export default function AnimalList() {
   }
 
   return userData && markerData ? (
-    <div className="mt-3">
+    <div className="mar">
       {/* <ListingHeader username={userData.username} /> */}
       <div className="col-md-8 offset-md-2">
         <div className="row mb-4">

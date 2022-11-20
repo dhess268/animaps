@@ -29,7 +29,12 @@ export default function Profile() {
   }, [navigate]);
 
   return userData ? (
-    <ProfileBody user={userData} />
+    <>
+      <button type="button" className="btn btn-primary">
+        Edit
+      </button>
+      <ProfileBody user={userData} />
+    </>
   ) : (
     <ThreeCircles
       height="100"

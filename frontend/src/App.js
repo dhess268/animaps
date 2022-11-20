@@ -10,6 +10,7 @@ import {
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { useLoadScript } from '@react-google-maps/api';
 import axios from 'axios';
+import { ThreeCircles } from 'react-loader-spinner';
 import Map from './components/Map';
 import Header from './components/Header';
 
@@ -47,7 +48,21 @@ function App() {
     }
   }, [navigate]);
 
-  if (!isLoaded) return <div className="App">Loading...</div>;
+  if (!isLoaded)
+    return (
+      <ThreeCircles
+        height="100"
+        width="100"
+        color="#4fa94d"
+        wrapperStyle={{}}
+        wrapperClass="flex-d justify-content-center align-items-center h-100"
+        visible
+        ariaLabel="three-circles-rotating"
+        outerCircleColor=""
+        innerCircleColor=""
+        middleCircleColor=""
+      />
+    );
 
   return (
     // Provide the client to your App

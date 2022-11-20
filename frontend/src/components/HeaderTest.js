@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
+const logo = require('../pics/ANIMAPS.png');
+
 export default function HeaderTest(props) {
   const navigate = useNavigate();
   function handleLogout() {
@@ -17,10 +19,10 @@ export default function HeaderTest(props) {
   }
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-extend-md top__margin">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-          Animaps
+        <a className="navbar-brand" href="/map">
+          <img src={logo} alt="logo" width={40} />
         </a>
 
         <button
