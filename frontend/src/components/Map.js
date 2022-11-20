@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import PropTypes from 'prop-types';
 import { GoogleMap, Autocomplete, InfoWindowF } from '@react-google-maps/api';
 import axios from 'axios';
@@ -16,12 +16,9 @@ function Map({ userAddress }) {
   const [openMarker, setOpenMarker] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, isLoading, isError, refetch } = useQuery(
-    ['markerQuery'],
-    async () => {
-      const markerData = await getMarkers();
-      return markerData;
-    }
+  const queryClient = useQueryClient();
+  const { data, isLoading, isError, refetch } = useQuery(['markerQuery'], () =>
+    getMarkers()
   );
 
   // this will mutate the SERVER side data and then on success we can do stuff
@@ -30,20 +27,41 @@ function Map({ userAddress }) {
       await postMarker(newMarker);
     },
     {
-      onSuccess: () => refetch(),
+      // onSuccess: () => queryClient.invalidateQueries('markerQuery'),
+      onSettled: () => {
+        queryClient.invalidateQueries('markerQuery');
+      },
+      onError: (err, newTodo, context) => {
+        queryClient.setQueryData('markerQuery', context.previousMarkers);
+      },
+      onMutate: async (newMarker) => {
+        // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+        await queryClient.cancelQueries('markerQuery');
+
+        // Snapshot the previous value
+        const previousMarkers = queryClient.getQueryData('markerQuery');
+
+        // Optimistically update to the new value
+        queryClient.setQueryData('markerQuery', (old) => [...old, newMarker]);
+
+        // Return a context object with the snapshotted value
+        return { previousMarkers };
+      },
     }
   );
   useEffect(() => {
     setCenter3(userAddress);
   }, [userAddress]);
+
   function onLoad(auto) {
     setAutocomplete(auto);
   }
 
-  function getMarkers() {
-    return axios
+  async function getMarkers() {
+    const res = await axios
       .get('https://animaps-production.up.railway.app/markers')
       .then((serverData) => serverData.data);
+    return res;
   }
 
   function postMarker(marker) {
@@ -112,7 +130,7 @@ function Map({ userAddress }) {
 
   return (
     <div className="map-container">
-      <AddMarker addMarker={mutate} />
+      <AddMarker addMarker={mutate} latLng={center3} />
       {center3 && (
         <div className="map">
           <GoogleMap
@@ -127,11 +145,25 @@ function Map({ userAddress }) {
             onCenterChanged={() => handleCenterChange()}
             onLoad={(thisMap) => setMap(thisMap)}
             // ref={(maap) => setMap(maap)}
-            options={{ gestureHandling: 'greedy' }}
+            options={{
+              gestureHandling: 'greedy',
+            }}
           >
             <Autocomplete
               onLoad={(auto) => onLoad(auto)}
               onPlaceChanged={() => onPlaceChanged()}
+              location={center3}
+              options={{
+                location: center3 || null,
+                radius: 20000,
+                types: ['address'],
+              }}
+              bounds={{
+                east: center3.lng - 0.1,
+                west: center3.lng + 0.1,
+                north: center3.lat + 0.1,
+                south: center3.lat - 0.1,
+              }}
             >
               <input
                 type="text"

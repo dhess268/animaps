@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const logo = require('../pics/ANIMAPS_large.png');
+
 export default function Landing() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -48,7 +50,8 @@ export default function Landing() {
   }
   return (
     <div className="d-flex justify-content-space-around flex-column h-100">
-      <h1 className="text-center mb-5 logo">Animaps</h1>
+      {/* <h1 className="text-center mb-5 logo">Animaps</h1> */}
+      <img src={logo} alt="logo" width={400} className="align-self-center" />
       <form onSubmit={(e) => handleSubmit(e)} className="d-grid gap-3">
         <div className="col-md-4 offset-md-4">
           <input
@@ -79,7 +82,7 @@ export default function Landing() {
           No account? click <a href="/animaps#/register">here</a> to register!
         </p>
         {errorToShow ? (
-          <div className="col-md-4 offset-md-4 text-center border border-2 rounded bg-light border-danger mt-3">
+          <div className="col-md-4 offset-md-4 text-center border border-2 rounded bg-light border-danger mar">
             Incorrect username or password please try again.
           </div>
         ) : null}

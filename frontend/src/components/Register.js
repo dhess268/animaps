@@ -11,6 +11,7 @@ export default function Register() {
   const [last, setLast] = useState('');
   const [place, setPlace] = useState('');
   const [autocompleteInput, setAutocompleteInput] = useState('');
+  const [inputError, setInputError] = useState('');
 
   const navigate = useNavigate();
 
@@ -26,6 +27,7 @@ export default function Register() {
     if ((username, password, email, first, last, place, autocompleteInput)) {
       return true;
     }
+    setInputError('All fields must be filled out in order to register');
     return false;
   }
 

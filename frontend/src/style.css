@@ -35,6 +35,7 @@ a {
   align-items: center;
   height: 100%;
   width: 100%;
+  margin-top: 5vh;
 }
 
 .combobox-input {
@@ -134,4 +135,12 @@ a {
 
 .form__register {
   font-size: 1.5rem;
+}
+
+.top__margin {
+  margin-bottom: 100px;
+}
+
+.mar {
+  margin-top: 70px;
 }

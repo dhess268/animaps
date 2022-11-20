@@ -10,10 +10,13 @@ import {
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { useLoadScript } from '@react-google-maps/api';
 import axios from 'axios';
+import { ThreeCircles } from 'react-loader-spinner';
 import Map from './components/Map';
 import Header from './components/Header';
 
 const libraries = ['places'];
+// Create a client (outside of App so it's completely stable and safe from rerenders)
+const queryClient = new QueryClient();
 
 function App() {
   const { isLoaded } = useLoadScript({
@@ -25,6 +28,7 @@ function App() {
   const [userData, setUserData] = useState('');
   useEffect(() => {
     const token = localStorage.getItem('token');
+
     if (token) {
       axios
         .get('https://animaps-production.up.railway.app/auth/current_user', {
@@ -44,9 +48,22 @@ function App() {
     }
   }, [navigate]);
 
-  if (!isLoaded) return <div className="App">Loading...</div>;
-  // Create a client
-  const queryClient = new QueryClient();
+  if (!isLoaded)
+    return (
+      <ThreeCircles
+        height="100"
+        width="100"
+        color="#4fa94d"
+        wrapperStyle={{}}
+        wrapperClass="flex-d justify-content-center align-items-center h-100"
+        visible
+        ariaLabel="three-circles-rotating"
+        outerCircleColor=""
+        innerCircleColor=""
+        middleCircleColor=""
+      />
+    );
+
   return (
     // Provide the client to your App
     <QueryClientProvider client={queryClient}>
