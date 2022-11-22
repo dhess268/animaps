@@ -141,3 +141,10 @@ a {
 .landing {
   height: 100vh;
 }
+
+.loading__center {
+  position: absolute;
+  top: 30vh;
+  left: 50vw;
+  transform: translateX(-50%);
+}

@@ -137,7 +137,7 @@ function Map({ userAddress }) {
         width="100"
         color="#4fa94d"
         wrapperStyle={{}}
-        wrapperClass="flex-d justify-content-center align-items-center h-100"
+        wrapperClass="loading__center"
         visible
         ariaLabel="three-circles-rotating"
         outerCircleColor=""
