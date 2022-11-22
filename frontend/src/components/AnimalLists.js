@@ -50,7 +50,9 @@ export default function AnimalList() {
 
   function renderCards() {
     const filteredMarkers = markerData
-      .filter((marker) => marker.distanceFromCenter < maxDistanceInMiles)
+      .filter(
+        (marker) => marker.distanceFromCenter < Number(maxDistanceInMiles)
+      )
       .filter((marker) => marker.species.includes(selectedSpecies));
 
     const sortedAndFilteredMarkers = filteredMarkers.sort(
@@ -109,6 +111,7 @@ export default function AnimalList() {
               id="pet-select"
               onChange={(e) => setSelectedSpecies(e.target.value)}
               className="col-md-3"
+              defaultValue=""
             >
               <option value="">--All--</option>
               <option value="dog">Dog</option>
@@ -129,14 +132,13 @@ export default function AnimalList() {
               id="distance-select"
               onChange={(e) => setMaxDistanceInMiles(e.target.value)}
               className="col-md-3"
+              defaultValue="50"
             >
               <option value="1">1 mile</option>
               <option value="5">5 miles</option>
               <option value="10">10 miles</option>
               <option value="30">30 miles</option>
-              <option value="50" selected>
-                50 miles
-              </option>
+              <option value="50">50 miles</option>
               <option value="100000">100000 miles</option>
             </select>
           </section>
@@ -149,10 +151,9 @@ export default function AnimalList() {
               id="distance-sort-by"
               onChange={(e) => setSortDistanceBy(e.target.value)}
               className="col-md-3"
+              defaultValue="-1"
             >
-              <option value="-1" selected>
-                Closest
-              </option>
+              <option value="-1">Closest</option>
               <option value="1">Farthest</option>
             </select>
           </section>

@@ -106,12 +106,12 @@ export default function AddMarker({ addMarker, latLng }) {
   }
   // console.log(latLng);
   return (
-    <div className="form__container" onSubmit={(e) => handleReport(e)}>
-      <section className="form__inner">
+    <div className="" onSubmit={(e) => handleReport(e)}>
+      <section className="">
         <h2>Report an animal sighting</h2>
         <form className="">
           <p>
-            <label htmlFor="species" className="form__label">
+            <label htmlFor="species" className="">
               Species
             </label>
             <select
@@ -124,8 +124,8 @@ export default function AddMarker({ addMarker, latLng }) {
               <option value="dog">Dog</option>
               <option value="cat">Cat</option>
               <option value="hamster">Hamster</option>
-              <option value="parrot">Parrot</option>
-              <option value="spider">Spider</option>
+              {/* <option value="parrot">Parrot</option>
+              <option value="spider">Spider</option> */}
               <option value="goldfish">Goldfish</option>
             </select>
           </p>
@@ -156,13 +156,6 @@ export default function AddMarker({ addMarker, latLng }) {
             value={autocompleteInput}
             onChange={(e) => setAutocompleteInput(e.target.value)}
           /> */}
-          <input
-            type="file"
-            name="image"
-            onChange={(e) => handleInputchange(e)}
-            value={fileInput}
-            accept="image/png, image/jpeg"
-          />
 
           <GooglePlacesAutocomplete
             apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY_A}
@@ -188,6 +181,13 @@ export default function AddMarker({ addMarker, latLng }) {
               style={{ height: '300px' }}
             />
           )}
+          <input
+            type="file"
+            name="image"
+            onChange={(e) => handleInputchange(e)}
+            value={fileInput}
+            accept="image/png, image/jpeg"
+          />
           <button type="submit">Report</button>
         </form>
       </section>

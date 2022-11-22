@@ -5,7 +5,6 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   width: 100%;
-  height: 100%;
 }
 
 a {
@@ -27,15 +26,7 @@ a {
 }
 #root {
   height: 100%;
-}
-.map-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  margin-top: 5vh;
+  background-color: aliceblue;
 }
 
 .combobox-input {
@@ -79,7 +70,7 @@ a {
 
 .profile__section {
   margin-top: 10rem;
-
+  height: 79vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -118,15 +109,6 @@ a {
 .form__container {
   padding-top: 50px;
 }
-.map-container {
-  padding-bottom: 50px;
-  padding-top: 100px;
-  min-height: 100%;
-}
-
-.map {
-  padding-bottom: 50px;
-}
 
 .form__register {
   display: flex;
@@ -138,9 +120,20 @@ a {
 }
 
 .top__margin {
-  margin-bottom: 100px;
+  /* margin-bottom: 100px; */
+  border-bottom: rgb(25, 135, 84) 3px solid;
 }
 
 .mar {
-  margin-top: 70px;
+  padding-top: 90px;
+}
+
+.btn__modal {
+  position: absolute;
+  bottom: 5vh;
+  left: 50vw;
+  z-index: 2;
+  transform: translateX(-50%);
+  font-size: 50px;
+  width: 50vw;
 }
