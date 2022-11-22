@@ -72,7 +72,7 @@ export default function Register() {
   }
 
   return (
-    <section>
+    <section className="landing">
       <h1 className="text-center mb-5 pt-5">Register for Animaps</h1>
       <form
         className="form__register col-md-8 offset-md-2"

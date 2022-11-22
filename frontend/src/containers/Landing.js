@@ -49,7 +49,7 @@ export default function Landing() {
       });
   }
   return (
-    <div className="d-flex justify-content-space-around flex-column h-100">
+    <div className="d-flex justify-content-space-around flex-column landing">
       {/* <h1 className="text-center mb-5 logo">Animaps</h1> */}
       <img src={logo} alt="logo" width={400} className="align-self-center" />
       <form onSubmit={(e) => handleSubmit(e)} className="d-grid gap-3">
