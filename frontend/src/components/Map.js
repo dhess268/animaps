@@ -124,6 +124,7 @@ function Map({ userAddress }) {
 
   function openModal() {
     setModalIsOpen(true);
+    setIsOpen(false);
   }
 
   function closeModal() {
