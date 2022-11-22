@@ -252,19 +252,33 @@ function Map({ userAddress }) {
                 key={openMarker._id}
                 position={{ lat: openMarker.lat, lng: openMarker.lng }}
               >
-                <div>
-                  <h3>{openMarker.time || 'Error: Time not noted'}</h3>
-                  <span>
-                    Species: {openMarker.species || 'Error: Species not noted'}
-                  </span>
-                  <p>
-                    {openMarker.description ||
-                      'Description of sighting not found'}
-                  </p>
+                <div className="card" style={{ width: '18rem' }}>
                   <img
                     src={openMarker.image.url}
                     alt={`Spotted ${openMarker.species}`}
+                    className="card-img-top"
                   />
+                  <div className="card-body">
+                    <h5 className="card-title">
+                      {openMarker.species[0].toUpperCase() +
+                        openMarker.species.substring(1)}{' '}
+                      sighting
+                    </h5>
+                    <p className="card-text">{openMarker.description}</p>
+                    <span>
+                      Sighting reported at:{' '}
+                      {openMarker.time || 'Error: Time not noted'}
+                    </span>
+                    <br />
+                    <br />
+                    <button
+                      type="button"
+                      onClick={() => setIsOpen(false)}
+                      className="btn btn-danger w-100"
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
               </InfoWindowF>
             )}
