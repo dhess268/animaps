@@ -137,3 +137,7 @@ a {
   font-size: 50px;
   width: 50vw;
 }
+
+.landing {
+  height: 100vh;
+}
