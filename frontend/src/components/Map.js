@@ -1,12 +1,24 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import PropTypes from 'prop-types';
 import { GoogleMap, Autocomplete, InfoWindowF } from '@react-google-maps/api';
 import axios from 'axios';
 import haversine from 'haversine-distance';
 import { ThreeCircles } from 'react-loader-spinner';
+import Modal from 'react-modal';
 import MarkerWithInfoWindow from './MarkerWithInfoWindow';
 import AddMarker from './AddMarker';
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
 
 function Map({ userAddress }) {
   const [center3, setCenter3] = useState(userAddress);
@@ -24,6 +36,7 @@ function Map({ userAddress }) {
   // this will mutate the SERVER side data and then on success we can do stuff
   const { mutate } = useMutation(
     async (newMarker) => {
+      closeModal();
       await postMarker(newMarker);
     },
     {
@@ -107,6 +120,16 @@ function Map({ userAddress }) {
     setOpenMarker(marker);
   }
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  function openModal() {
+    setModalIsOpen(true);
+  }
+
+  function closeModal() {
+    setModalIsOpen(false);
+  }
+
   if (isLoading) {
     return (
       <ThreeCircles
@@ -130,16 +153,37 @@ function Map({ userAddress }) {
 
   return (
     <div className="map-container">
-      <AddMarker addMarker={mutate} latLng={center3} />
+      <button
+        type="button"
+        className="btn btn-success btn__modal"
+        onClick={() => openModal()}
+        hidden={modalIsOpen}
+      >
+        Report Animal Sighting
+      </button>
+      <Modal
+        isOpen={modalIsOpen}
+        style={customStyles}
+        contentLabel="Example Modal"
+        appElement={document.getElementById('root')}
+      >
+        <button onClick={() => closeModal()} type="button">
+          close
+        </button>
+        <AddMarker addMarker={mutate} latLng={center3} />
+      </Modal>
       {center3 && (
         <div className="map">
           <GoogleMap
             zoom={16}
             center={center3}
             mapContainerStyle={{
-              height: '50vh',
-              width: '50vw',
+              height: '100%',
+              width: '100%',
+              minHeight: '92vh',
+              marginTop: '70px',
             }}
+            className="map__main"
             clickableIcons={false}
             // onClick={(e) => console.log(e.latLng.lat())}
             onCenterChanged={() => handleCenterChange()}
@@ -171,17 +215,19 @@ function Map({ userAddress }) {
                 style={{
                   boxSizing: `border-box`,
                   border: `1px solid transparent`,
-                  width: `240px`,
+                  width: `25vw`,
                   height: `32px`,
                   padding: `0 12px`,
                   borderRadius: `3px`,
                   boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-                  fontSize: `14px`,
+                  fontSize: `20px`,
                   outline: `none`,
                   textOverflow: `ellipses`,
                   position: 'absolute',
                   left: '50%',
-                  marginLeft: '-120px',
+                  transform: 'translateX(-50%)',
+                  minWidth: '300px',
+                  marginTop: '4px',
                 }}
                 onChange={(e) => setInputValue(e.value)}
                 value={inputValue}
