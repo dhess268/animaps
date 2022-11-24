@@ -252,12 +252,15 @@ function Map({ userAddress }) {
                 onCloseClick={() => setIsOpen(false)}
                 key={openMarker._id}
                 position={{ lat: openMarker.lat, lng: openMarker.lng }}
+                style={{ 'max-width': '1000px' }}
               >
-                <div className="card" style={{ width: '18rem' }}>
+                <div className="card infowindow">
                   <img
                     src={openMarker.image.url}
                     alt={`Spotted ${openMarker.species}`}
                     className="card-img-top"
+                    width="250px"
+                    height="250px"
                   />
                   <div className="card-body">
                     <h5 className="card-title">
