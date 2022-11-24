@@ -173,6 +173,7 @@ export default function AddMarker({ addMarker, latLng }) {
               radius: 20000,
               types: ['address'],
             }}
+            style={{ overflow: 'hidden' }}
           />
           {previewSource && (
             <img
