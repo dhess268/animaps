@@ -30,9 +30,9 @@ export default function Profile() {
 
   return userData ? (
     <>
-      <button type="button" className="btn btn-primary">
+      {/* <button type="button" className="btn btn-primary">
         Edit
-      </button>
+      </button> */}
       <ProfileBody user={userData} />
     </>
   ) : (
