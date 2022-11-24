@@ -157,13 +157,14 @@ a {
   min-width: 500px !important;
   /* box-sizing: border-box; */
   overflow: scroll;
-  background-color: #dd9191;
   border-radius: 8px;
   /* box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.3); */
 }
 
 @media (max-width: 600px) {
   .gm-style .gm-style-iw-c {
-    min-width: 90vw !important;
+    width: 100vw !important;
+    height: 75vh !important;
+    min-width: 300px !important;
   }
 }

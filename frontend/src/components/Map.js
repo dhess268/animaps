@@ -254,7 +254,7 @@ function Map({ userAddress }) {
                 position={{ lat: openMarker.lat, lng: openMarker.lng }}
                 style={{ 'max-width': '1000px' }}
               >
-                <div className="card infowindow">
+                <div className="infowindow">
                   <img
                     src={openMarker.image.url}
                     alt={`Spotted ${openMarker.species}`}
@@ -262,7 +262,7 @@ function Map({ userAddress }) {
                     width="250px"
                     height="250px"
                   />
-                  <div className="card-body">
+                  <div className="">
                     <h5 className="card-title">
                       {openMarker.species[0].toUpperCase() +
                         openMarker.species.substring(1)}{' '}
