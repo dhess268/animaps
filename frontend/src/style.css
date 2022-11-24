@@ -188,4 +188,9 @@ a {
   .navbar {
     padding-bottom: 0 !important;
   }
+  .btn__modal {
+    top: 12px;
+    bottom: initial;
+    z-index: 100000;
+  }
 }
