@@ -76,8 +76,9 @@ router.post("/", function (req, res, next) {
 });
 
 /* DELETE remove user by id */
-router.delete("/:userId", requireAuth, function (req, res, next) {
-  const id = req.params.userId;
+router.delete("/delete", requireAuth, function (req, res, next) {
+  const id = req.user._id
+  // const id = req.params.userId;
   User.findByIdAndDelete(id).exec((err) => {
     if (err) {
       res.status(400).send(err);
