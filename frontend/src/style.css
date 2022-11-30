@@ -27,6 +27,7 @@ a {
 #root {
   height: 100%;
   background-color: aliceblue;
+  min-height: 100vh;
 }
 
 .combobox-input {
@@ -172,6 +173,10 @@ a {
   background-color: rgb(148, 243, 199);
   border-bottom: 1px solid black;
 }
+
+/* html {
+  min-height: 100vh;
+} */
 @media (max-width: 600px) {
   .gm-style .gm-style-iw-c {
     width: 100vw !important;

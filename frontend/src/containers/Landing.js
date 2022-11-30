@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const logo = require('../pics/ANIMAPS_large.png');
 
@@ -78,8 +78,8 @@ export default function Landing() {
         <button type="submit" className="btn btn-primary col-md-2 offset-md-5">
           Sign in
         </button>
-        <p className="col-md-2 offset-md-5">
-          No account? click <a href="/animaps#/register">here</a> to register!
+        <p className="col-md-2 offset-md-5 text-center">
+          No account? click <Link to="/register">here</Link> to register!
         </p>
         {errorToShow ? (
           <div className="col-md-4 offset-md-4 text-center border border-2 rounded bg-light border-danger mar">

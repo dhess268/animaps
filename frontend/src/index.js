@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HashRouter, Outlet, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import App from './App';
 import Landing from './containers/Landing';
 import ErrorPage from './ErrorPage';
@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* hash router used for github pages compatab */}
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Outlet />}>
           <Route index element={<Landing />} />
@@ -36,6 +36,6 @@ root.render(
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   </React.StrictMode>
 );
