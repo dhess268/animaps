@@ -92,7 +92,7 @@ router.delete("/:userId", requireAuth, function (req, res, next) {
 });
 
 // Edit user by id
-router.put("/:userId", requireAuth, async function (req, res, next) {
+router.put("/edit", requireAuth, async function (req, res, next) {
   if (validateUpdateUser(req)) {
     const userId = req.params.userId;
     const {
@@ -100,34 +100,28 @@ router.put("/:userId", requireAuth, async function (req, res, next) {
       firstname,
       lastname,
       email,
-      phone,
-      avatarUrl,
-      contacts,
-      organization,
       password,
+      addressString,
+      addressLatLng
     } = req.body;
     const update = {
-      username: username,
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      phone: phone,
-      avatarUrl: avatarUrl,
-      contacts: contacts,
-      organization: organization,
-      password: password,
+      username,
+      firstname,
+      lastname,
+      email,
+      password,
+      addressString,
+      addressLatLng
     };
-    const filter = { _id: userId };
-    const updateUser = await User.findOneAndUpdate(
+    const filter = { _id: req.user._id };
+    User.findOneAndUpdate(
       filter,
       update,
-      { new: true },
       function (err, response) {
         if (err) {
           res.status(400).send(err);
         } else {
-          res.send(response);
-          res.status(200);
+          res.status(204).end()
         }
       }
     );
