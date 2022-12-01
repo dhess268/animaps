@@ -95,27 +95,31 @@ router.delete("/delete", requireAuth, function (req, res, next) {
 // Edit user by id
 router.put("/edit", requireAuth, async function (req, res, next) {
   if (validateUpdateUser(req)) {
-    const userId = req.params.userId;
+    const userId = req.user._id;
     const {
       firstname,
       lastname,
       addressString,
       addressLatLng
     } = req.body;
+    console.log(req.body)
     const update = {
       firstname,
       lastname,
       addressString,
       addressLatLng
     };
-    const filter = { _id: req.user._id };
+    console.log(update)
+    const filter = { _id: userId };
     User.findOneAndUpdate(
       filter,
       update,
+      {new: true},
       function (err, response) {
         if (err) {
           res.status(400).send(err);
         } else {
+          // console.log(response)
           res.status(204).end()
         }
       }
