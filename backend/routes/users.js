@@ -97,20 +97,14 @@ router.put("/edit", requireAuth, async function (req, res, next) {
   if (validateUpdateUser(req)) {
     const userId = req.params.userId;
     const {
-      username,
       firstname,
       lastname,
-      email,
-      password,
       addressString,
       addressLatLng
     } = req.body;
     const update = {
-      username,
       firstname,
       lastname,
-      email,
-      password,
       addressString,
       addressLatLng
     };
@@ -128,7 +122,7 @@ router.put("/edit", requireAuth, async function (req, res, next) {
     );
   } else {
     res
-      .status(401)
+      .status(400)
       .send(
         "username, firstname, lastname, email and password are required fields and cannot be empty"
       );
