@@ -15,6 +15,8 @@ export default function ProfileBody({ user }) {
   const [firstName, setFirstName] = useState(user.firstname);
   const [lastName, setLastName] = useState(user.lastname);
 
+  const [isDeleting, setIsDeleting] = useState(false);
+
   function handleEditClick() {
     setIsEditing(true);
   }
@@ -39,11 +41,29 @@ export default function ProfileBody({ user }) {
       addressString: autocompleteInput,
     };
     axios
-      .put(
-        'https://animaps-production.up.railway.app/user/edit',
-        { headers: { Authorization: `Bearer ${token}` } },
-        editedUser
-      )
+      .put('https://animaps-production.up.railway.app/user/edit', editedUser, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(() => {
+        localStorage.removeItem('token');
+        navigate('/');
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('Error: Please try again');
+        navigate('/profile');
+      });
+  }
+
+  function handleDeleteAccount() {
+    const token = localStorage.getItem('token');
+    axios
+      .delete('https://animaps-production.up.railway.app/user/delete', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(() => {
+        navigate('/');
+      })
       .catch((error) => {
         console.log(error);
         alert('Error: Please try again');
@@ -58,12 +78,12 @@ export default function ProfileBody({ user }) {
         <section className="profile__info">
           <span className="profile__line">
             <strong className="profile__name">Name: </strong>
-            {user.firstname} {user.lastname}
+            {firstName} {lastName}
           </span>
           <br />
           <span className="profile__line">
             <strong>Address: </strong>
-            {user.addressString}
+            {autocompleteInput}
           </span>
           <br />
           <span className="profile__line">
@@ -72,13 +92,45 @@ export default function ProfileBody({ user }) {
           </span>
         </section>
         <br />
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={() => handleEditClick()}
-        >
-          Edit
-        </button>
+        {isDeleting ? (
+          <>
+            <h2 className="text-center mb-3">ARE YOU SURE?</h2>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => handleDeleteAccount()}
+            >
+              Yes
+            </button>
+            <br />
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={() => setIsDeleting(false)}
+            >
+              No
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              type="button"
+              className="btn btn-success mb-3"
+              onClick={() => handleEditClick()}
+            >
+              Edit
+            </button>
+
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={() => setIsDeleting(true)}
+            >
+              Delete account
+            </button>
+          </>
+        )}
+
         <section />
       </section>
     </section>
