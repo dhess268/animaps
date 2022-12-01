@@ -80,14 +80,15 @@ a {
 }
 
 .profile__inner {
-  /* background: rgb(236, 236, 236);
+  background: rgb(236, 236, 236);
   height: 50vh;
   padding: 60px;
   display: flex;
   justify-content: space-around;
   flex-direction: column;
   border-radius: 20px;
-  box-shadow: 20px 20px rgb(25, 135, 84); */
+  box-shadow: 20px 20px rgb(25, 135, 84);
+  min-width: 60%;
 }
 
 .profile__inner h1 {
@@ -174,6 +175,20 @@ a {
   border-bottom: 1px solid black;
 }
 
+/* .profile__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+} */
+
+.profile__name {
+  padding-right: 31.08px;
+}
+
+.profile__email {
+  padding-right: 38.46px;
+}
+
 /* html {
   min-height: 100vh;
 } */
@@ -197,5 +212,22 @@ a {
     top: 12px;
     bottom: initial;
     z-index: 100000;
+  }
+}
+.profile__address-input {
+  padding-right: 34px;
+}
+.last {
+  padding-right: 5px;
+}
+@media (max-width: 900px) {
+  .profile__inner {
+    background: rgb(236, 236, 236);
+    height: auto;
+    padding: auto;
+    display: block;
+
+    border-radius: 20px;
+    box-shadow: 20px 20px rgb(25, 135, 84);
   }
 }
