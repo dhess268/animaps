@@ -45,8 +45,7 @@ export default function ProfileBody({ user }) {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
-        localStorage.removeItem('token');
-        navigate('/');
+        setIsEditing(false);
       })
       .catch((error) => {
         console.log(error);
@@ -62,6 +61,7 @@ export default function ProfileBody({ user }) {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
+        localStorage.removeItem('token');
         navigate('/');
       })
       .catch((error) => {
