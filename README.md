@@ -79,9 +79,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://animaps.link/)
-
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `dhess268`, `animaps`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+I originally created this project for my own use in my neighborhood. A stray cat came to my family during the summer and it didn't want to leave. We had no way of knowing whether or not it was a stray animal (and it ended up being someone's neglected kitty). I hope this project will help others either find their lost animals or be able to take in new animals knowing for sure it's not someone else's lost pet.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
