@@ -63,7 +63,7 @@ export default function AddMarker({ addMarker, latLng }) {
           species,
           description,
           image: reader.result,
-          addressString: autocompleteInput,
+          addressString: autocompleteInput.value.description,
         });
       };
       reader.onerror = () => {
