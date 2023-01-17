@@ -167,7 +167,7 @@ function Map({ userAddress }) {
       <Modal
         isOpen={modalIsOpen}
         style={customStyles}
-        contentLabel="Example Modal"
+        contentLabel="Add New Marker"
         appElement={document.getElementById('root')}
       >
         <button onClick={() => closeModal()} type="button">
