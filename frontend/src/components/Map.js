@@ -235,7 +235,7 @@ function Map({ userAddress }) {
                 value={inputValue}
               />
             </Autocomplete>
-            {data.map((marker, i) => (
+            {data.map((marker) => (
               <MarkerWithInfoWindow
                 position={{ lat: marker.lat, lng: marker.lng }}
                 time={marker.time}

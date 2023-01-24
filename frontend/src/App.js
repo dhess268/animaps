@@ -11,6 +11,11 @@ const libraries = ['places'];
 // Create a client (outside of App so it's completely stable and safe from rerenders)
 const queryClient = new QueryClient();
 
+const defaultLatLng = {
+  lat: 40.7128,
+  lng: -74.006,
+};
+
 function App() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY_A,
@@ -60,9 +65,7 @@ function App() {
   return (
     // Provide the client to your App
     <QueryClientProvider client={queryClient}>
-      <Map
-        userAddress={userData?.addressLatLng || { lat: 40.7128, lng: -74.006 }}
-      />
+      <Map userAddress={userData?.addressLatLng || defaultLatLng} />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

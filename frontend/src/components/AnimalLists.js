@@ -4,9 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import haversine from 'haversine-distance';
 import { ThreeCircles } from 'react-loader-spinner';
 
+const defaultLatLng = {
+  lat: 40.7128,
+  lng: -74.006,
+};
+
 export default function AnimalList() {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState('');
   const [markerData, setMarkerData] = useState('');
   const [maxDistanceInMiles, setMaxDistanceInMiles] = useState(50);
   const [selectedSpecies, setSelectedSpecies] = useState('');
@@ -21,7 +25,6 @@ export default function AnimalList() {
         })
         .then((response) => {
           localStorage.setItem('token', response.data.token);
-          setUserData(response.data);
           const user = response.data;
           // note: move this out of the useEffect intoa usecallback later...
           axios
@@ -45,6 +48,20 @@ export default function AnimalList() {
         });
     } else {
       // navigate('/');
+      axios
+        .get('https://animaps-production.up.railway.app/markers')
+        .then((serverData) => {
+          const newMarkers = serverData.data.map((marker) => ({
+            ...marker,
+            distanceFromCenter: (
+              haversine(defaultLatLng, {
+                lat: marker.lat,
+                lng: marker.lng,
+              }) / 1609
+            ).toFixed(1),
+          }));
+          setMarkerData(newMarkers);
+        });
     }
   }, [navigate]);
 
@@ -99,7 +116,6 @@ export default function AnimalList() {
 
   return markerData ? (
     <div className="mar">
-      {/* <ListingHeader username={userData.username} /> */}
       <div className="col-md-8 offset-md-2">
         <div className="row mb-4">
           <section className="mb-2">
