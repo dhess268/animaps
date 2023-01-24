@@ -44,7 +44,7 @@ export default function AnimalList() {
           navigate('/login');
         });
     } else {
-      navigate('/');
+      // navigate('/');
     }
   }, [navigate]);
 
@@ -97,7 +97,7 @@ export default function AnimalList() {
     );
   }
 
-  return userData && markerData ? (
+  return markerData ? (
     <div className="mar">
       {/* <ListingHeader username={userData.username} /> */}
       <div className="col-md-8 offset-md-2">

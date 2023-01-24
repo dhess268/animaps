@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const logo = require('../pics/ANIMAPS_large.png');
 
-export default function Landing() {
+export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorToShow, setErrorToShow] = useState('');

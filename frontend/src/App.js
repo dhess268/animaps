@@ -1,18 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { useLoadScript } from '@react-google-maps/api';
 import axios from 'axios';
 import { ThreeCircles } from 'react-loader-spinner';
 import Map from './components/Map';
-import Header from './components/Header';
 
 const libraries = ['places'];
 // Create a client (outside of App so it's completely stable and safe from rerenders)
@@ -44,7 +37,7 @@ function App() {
           navigate('/login');
         });
     } else {
-      navigate('/');
+      // navigate('/');
     }
   }, [navigate]);
 
@@ -67,7 +60,9 @@ function App() {
   return (
     // Provide the client to your App
     <QueryClientProvider client={queryClient}>
-      <Map userAddress={userData.addressLatLng} />
+      <Map
+        userAddress={userData?.addressLatLng || { lat: 40.7128, lng: -74.006 }}
+      />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

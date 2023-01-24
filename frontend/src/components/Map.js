@@ -3,7 +3,6 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import PropTypes from 'prop-types';
 import { GoogleMap, Autocomplete, InfoWindowF } from '@react-google-maps/api';
 import axios from 'axios';
-import haversine from 'haversine-distance';
 import { ThreeCircles } from 'react-loader-spinner';
 import Modal from 'react-modal';
 import MarkerWithInfoWindow from './MarkerWithInfoWindow';
@@ -31,7 +30,7 @@ function Map({ userAddress }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const queryClient = useQueryClient();
-  const { data, isLoading, isError, refetch } = useQuery(['markerQuery'], () =>
+  const { data, isLoading, isError } = useQuery(['markerQuery'], () =>
     getMarkers()
   );
 
