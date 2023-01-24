@@ -18,23 +18,23 @@ root.render(
     {/* hash router used for github pages compatab */}
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Outlet />}>
-          <Route index element={<Login />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <HeaderTest />
+              <Outlet />
+            </>
+          }
+        >
+          <Route index element={<App />} />
+
+          <Route path="/map" element={<App />} />
+          <Route exact path="/login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route
-            element={
-              <>
-                <HeaderTest />
-                <Outlet />
-              </>
-            }
-          >
-            <Route path="/map" element={<App />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/sightings" element={<AnimalList />} />
-            <Route path="/landing" element={<Landing />} />
-          </Route>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/sightings" element={<AnimalList />} />
+          <Route path="/landing" element={<Landing />} />
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Routes>

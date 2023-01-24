@@ -44,10 +44,25 @@ export default function AnimalList() {
         })
         .catch((error) => {
           localStorage.clear();
-          navigate('/login');
+          // not sure if the better UX is to redirect to the login page if their token expires?
+          // the user is not logged in so we have to go through this hoop again
+          axios
+            .get('https://animaps-production.up.railway.app/markers')
+            .then((serverData) => {
+              const newMarkers = serverData.data.map((marker) => ({
+                ...marker,
+                distanceFromCenter: (
+                  haversine(defaultLatLng, {
+                    lat: marker.lat,
+                    lng: marker.lng,
+                  }) / 1609
+                ).toFixed(1),
+              }));
+              setMarkerData(newMarkers);
+            });
         });
     } else {
-      // navigate('/');
+      // if not logged in we use a default location of NYC to calculate marker distance. Can change via geolocation button
       axios
         .get('https://animaps-production.up.railway.app/markers')
         .then((serverData) => {
@@ -65,6 +80,7 @@ export default function AnimalList() {
     }
   }, [navigate]);
 
+  // only will render cards within the user's specified range. This is to ensure the user will not see animal sighitngs outside their actual area of interest
   function renderCards() {
     const filteredMarkers = markerData
       .filter(
