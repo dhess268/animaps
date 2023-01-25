@@ -145,10 +145,6 @@ a {
   width: 50vw;
 }
 
-.landing {
-  height: 100vh;
-}
-
 .loading__center {
   position: absolute;
   top: 30vh;
