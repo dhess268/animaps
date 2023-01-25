@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import App from './App';
 import ErrorPage from './ErrorPage';
-import './style.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import './style.css';
 import Profile from './components/Profile';
 import AnimalList from './components/AnimalLists';
 import HeaderTest from './components/HeaderTest';
@@ -27,8 +27,7 @@ root.render(
             </>
           }
         >
-          <Route index element={<App />} />
-
+          <Route index element={<Landing />} />
           <Route path="/map" element={<App />} />
           <Route exact path="/login" element={<Login />} />
           <Route path="register" element={<Register />} />

@@ -183,7 +183,6 @@ function Map({ userAddress }) {
               height: '100%',
               width: '100%',
               minHeight: '92vh',
-              marginTop: '70px',
             }}
             className="map__main"
             clickableIcons={false}
