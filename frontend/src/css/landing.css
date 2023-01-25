@@ -9,6 +9,8 @@
   max-width: 1200px;
   padding: 6rem 3.5rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 .hero__heading {
   font-size: 5rem;
@@ -17,6 +19,9 @@
 
 .hero__span {
   font-size: 2rem;
+}
+.btn__container {
+  margin-top: 1rem;
 }
 
 @media (max-width: 650px) {

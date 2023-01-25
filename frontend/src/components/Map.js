@@ -169,7 +169,11 @@ function Map({ userAddress }) {
         contentLabel="Add New Marker"
         appElement={document.getElementById('root')}
       >
-        <button onClick={() => closeModal()} type="button">
+        <button
+          onClick={() => closeModal()}
+          type="button"
+          className="btn btn-primary"
+        >
           close
         </button>
         <AddMarker addMarker={mutate} latLng={center3} />

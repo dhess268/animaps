@@ -19,6 +19,11 @@ export default function HeaderTest() {
   //   navigate('/profile');
   // }
 
+  function handleLandingNavigate() {
+    setOpen(false);
+    navigate('/');
+  }
+
   function handleMapNavigate() {
     setOpen(false);
 
@@ -94,7 +99,7 @@ export default function HeaderTest() {
         <button
           className="btn"
           type="button"
-          onClick={() => handleMapNavigate()}
+          onClick={() => handleLandingNavigate()}
         >
           <img src={logo} alt="logo" width={40} />
         </button>

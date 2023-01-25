@@ -119,6 +119,7 @@ export default function AddMarker({ addMarker, latLng }) {
               id="pet-select"
               onChange={(e) => setSpecies(e.target.value)}
               value={species}
+              className="form-control"
             >
               <option value="">--Please choose an option--</option>
               <option value="dog">Dog</option>
@@ -130,13 +131,15 @@ export default function AddMarker({ addMarker, latLng }) {
             </select>
           </p>
           <p>
-            <label htmlFor="description" className="form__label">
+            <label htmlFor="description" className="form-label">
               Description of animal
             </label>
             <textarea
               name="description"
               value={description}
+              className="form-control"
               onChange={(e) => setDescription(e.target.value)}
+              id="description"
             />
           </p>
 
@@ -185,11 +188,14 @@ export default function AddMarker({ addMarker, latLng }) {
           <input
             type="file"
             name="image"
+            className="form-control"
             onChange={(e) => handleInputchange(e)}
             value={fileInput}
             accept="image/png, image/jpeg"
           />
-          <button type="submit">Report</button>
+          <button type="submit" className="btn btn-success mt-3">
+            Report
+          </button>
         </form>
       </section>
     </div>
