@@ -19,6 +19,11 @@ export default function HeaderTest() {
   //   navigate('/profile');
   // }
 
+  function handleLandingNavigate() {
+    setOpen(false);
+    navigate('/');
+  }
+
   function handleMapNavigate() {
     setOpen(false);
 
@@ -36,13 +41,65 @@ export default function HeaderTest() {
     navigate('/profile');
   }
 
+  function handleLogin() {
+    setOpen(false);
+    navigate('/login');
+  }
+  function renderLoginButtons() {
+    if (localStorage.getItem('token')) {
+      return (
+        <button
+          className="btn btn-outline-success topnav"
+          type="button"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+      );
+    }
+
+    return (
+      <button
+        className="btn btn-outline-success topnav"
+        type="button"
+        onClick={handleLogin}
+      >
+        Login
+      </button>
+    );
+  }
+
+  function renderLoginButtonsMobile() {
+    if (localStorage.getItem('token')) {
+      return (
+        <button
+          className=" header__responsive"
+          type="button"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+      );
+    }
+
+    return (
+      <button
+        className=" header__responsive"
+        type="button"
+        onClick={handleLogin}
+      >
+        Login
+      </button>
+    );
+  }
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top  top__margin">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light top__margin">
       <div className="container-fluid">
         <button
           className="btn"
           type="button"
-          onClick={() => handleMapNavigate()}
+          onClick={() => handleLandingNavigate()}
         >
           <img src={logo} alt="logo" width={40} />
         </button>
@@ -68,13 +125,7 @@ export default function HeaderTest() {
         >
           {/* {props.username}'s Profile */}Profile
         </button>
-        <button
-          className="btn btn-outline-success topnav"
-          type="button"
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
+        {renderLoginButtons()}
         <div className="hamburger">
           <Hamburger toggled={isOpen} toggle={setOpen} label="Show menu" />
         </div>
@@ -102,13 +153,7 @@ export default function HeaderTest() {
           >
             {/* {props.username}'s Profile */}Profile
           </button>
-          <button
-            className=" header__responsive"
-            type="button"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
+          {renderLoginButtonsMobile()}
         </>
       ) : null}
     </nav>

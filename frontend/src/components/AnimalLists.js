@@ -4,9 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import haversine from 'haversine-distance';
 import { ThreeCircles } from 'react-loader-spinner';
 
+const defaultLatLng = {
+  lat: 40.7128,
+  lng: -74.006,
+};
+
 export default function AnimalList() {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState('');
   const [markerData, setMarkerData] = useState('');
   const [maxDistanceInMiles, setMaxDistanceInMiles] = useState(50);
   const [selectedSpecies, setSelectedSpecies] = useState('');
@@ -21,7 +25,6 @@ export default function AnimalList() {
         })
         .then((response) => {
           localStorage.setItem('token', response.data.token);
-          setUserData(response.data);
           const user = response.data;
           // note: move this out of the useEffect intoa usecallback later...
           axios
@@ -41,13 +44,43 @@ export default function AnimalList() {
         })
         .catch((error) => {
           localStorage.clear();
-          navigate('/login');
+          // not sure if the better UX is to redirect to the login page if their token expires?
+          // the user is not logged in so we have to go through this hoop again
+          axios
+            .get('https://animaps-production.up.railway.app/markers')
+            .then((serverData) => {
+              const newMarkers = serverData.data.map((marker) => ({
+                ...marker,
+                distanceFromCenter: (
+                  haversine(defaultLatLng, {
+                    lat: marker.lat,
+                    lng: marker.lng,
+                  }) / 1609
+                ).toFixed(1),
+              }));
+              setMarkerData(newMarkers);
+            });
         });
     } else {
-      navigate('/');
+      // if not logged in we use a default location of NYC to calculate marker distance. Can change via geolocation button
+      axios
+        .get('https://animaps-production.up.railway.app/markers')
+        .then((serverData) => {
+          const newMarkers = serverData.data.map((marker) => ({
+            ...marker,
+            distanceFromCenter: (
+              haversine(defaultLatLng, {
+                lat: marker.lat,
+                lng: marker.lng,
+              }) / 1609
+            ).toFixed(1),
+          }));
+          setMarkerData(newMarkers);
+        });
     }
   }, [navigate]);
 
+  // only will render cards within the user's specified range. This is to ensure the user will not see animal sighitngs outside their actual area of interest
   function renderCards() {
     const filteredMarkers = markerData
       .filter(
@@ -97,9 +130,8 @@ export default function AnimalList() {
     );
   }
 
-  return userData && markerData ? (
+  return markerData ? (
     <div className="mar">
-      {/* <ListingHeader username={userData.username} /> */}
       <div className="col-md-8 offset-md-2">
         <div className="row mb-4">
           <section className="mb-2">

@@ -1,0 +1,47 @@
+.hero {
+  font-family: "Merriweather", serif;
+  padding: 4rem 2rem;
+  display: flex;
+  justify-content: center;
+  font-weight: 300;
+}
+.hero__inner {
+  max-width: 1200px;
+  padding: 6rem 3.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+.hero__heading {
+  font-size: 5rem;
+  color: rgb(4, 68, 4);
+}
+
+.hero__span {
+  font-size: 2rem;
+}
+.btn__container {
+  margin-top: 1rem;
+}
+
+@media (max-width: 650px) {
+  .hero {
+    font-family: "Merriweather", serif;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+  .hero__inner {
+    max-width: 1200px;
+    padding: 2rem;
+    text-align: center;
+  }
+  .hero__heading {
+    font-size: 2rem;
+    color: rgb(4, 68, 4);
+  }
+
+  .hero__span {
+    font-size: 1rem;
+  }
+}

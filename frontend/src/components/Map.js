@@ -3,7 +3,6 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import PropTypes from 'prop-types';
 import { GoogleMap, Autocomplete, InfoWindowF } from '@react-google-maps/api';
 import axios from 'axios';
-import haversine from 'haversine-distance';
 import { ThreeCircles } from 'react-loader-spinner';
 import Modal from 'react-modal';
 import MarkerWithInfoWindow from './MarkerWithInfoWindow';
@@ -31,7 +30,7 @@ function Map({ userAddress }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const queryClient = useQueryClient();
-  const { data, isLoading, isError, refetch } = useQuery(['markerQuery'], () =>
+  const { data, isLoading, isError } = useQuery(['markerQuery'], () =>
     getMarkers()
   );
 
@@ -170,7 +169,11 @@ function Map({ userAddress }) {
         contentLabel="Add New Marker"
         appElement={document.getElementById('root')}
       >
-        <button onClick={() => closeModal()} type="button">
+        <button
+          onClick={() => closeModal()}
+          type="button"
+          className="btn btn-primary"
+        >
           close
         </button>
         <AddMarker addMarker={mutate} latLng={center3} />
@@ -184,7 +187,6 @@ function Map({ userAddress }) {
               height: '100%',
               width: '100%',
               minHeight: '92vh',
-              marginTop: '70px',
             }}
             className="map__main"
             clickableIcons={false}
@@ -236,7 +238,7 @@ function Map({ userAddress }) {
                 value={inputValue}
               />
             </Autocomplete>
-            {data.map((marker, i) => (
+            {data.map((marker) => (
               <MarkerWithInfoWindow
                 position={{ lat: marker.lat, lng: marker.lng }}
                 time={marker.time}
