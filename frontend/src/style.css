@@ -141,12 +141,8 @@ a {
   left: 50vw;
   z-index: 2;
   transform: translateX(-50%);
-  font-size: 50px;
+  font-size: 25px;
   width: 50vw;
-}
-
-.landing {
-  height: 100vh;
 }
 
 .loading__center {
@@ -215,6 +211,8 @@ a {
     top: 12px;
     bottom: initial;
     z-index: 100000;
+    font-size: 13px;
+    max-height: 40px;
   }
 }
 .profile__address-input {
