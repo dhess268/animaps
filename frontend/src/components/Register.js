@@ -58,11 +58,11 @@ export default function Register() {
             // sets token into local storage upon successful login
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('userID', res.data.userID);
-            navigate('/map');
+            navigate('/profile');
           })
           .catch((error) => {
             alert('error: please try logging in with your new account');
-            navigate('/');
+            navigate('/login');
           });
       })
       .catch((error) => {
@@ -142,7 +142,7 @@ export default function Register() {
       </form>
       <button
         type="button"
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/login')}
         className="col-md-8 offset-md-2 mt-4 btn btn-primary"
       >
         Back to login

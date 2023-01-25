@@ -21,7 +21,7 @@ export default function Login() {
         .then((response) => {
           // console.log('fetchuseraction', response.data);
           localStorage.setItem('token', response.data.token);
-          navigate('/map');
+          navigate('/profile');
         })
         .catch((error) => {
           localStorage.clear();
@@ -40,7 +40,7 @@ export default function Login() {
         // sets token into local storage upon successful login
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userID', response.data.userID);
-        navigate('/map');
+        navigate('/profile');
       })
       .catch((error) => {
         setErrorToShow(error);
