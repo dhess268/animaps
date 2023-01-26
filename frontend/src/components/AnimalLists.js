@@ -100,7 +100,7 @@ export default function AnimalList() {
         <div className="card">
           <img
             src={marker.image.url}
-            className="card-img-top card-img"
+            className="card-img-top anipicture"
             alt={marker.species}
           />
           <div className="card-body">
@@ -134,61 +134,63 @@ export default function AnimalList() {
     <div className="mar">
       <div className="col-md-8 offset-md-2">
         <div className="row mb-4">
-          <section className="mb-2">
-            <label htmlFor="species" className="form__label col-md-2">
-              <strong>Sort By Animal Type</strong>
-            </label>
-            <select
-              name="pets"
-              id="pet-select"
-              onChange={(e) => setSelectedSpecies(e.target.value)}
-              className="col-md-3"
-              defaultValue=""
-            >
-              <option value="">--All--</option>
-              <option value="dog">Dog</option>
-              <option value="cat">Cat</option>
-              <option value="hamster">Hamster</option>
-              <option value="parrot">Parrot</option>
-              <option value="spider">Spider</option>
-              <option value="goldfish">Goldfish</option>
-            </select>
-          </section>
+          <div className="mobile-padding">
+            <section className="mb-2 d-flex">
+              <label htmlFor="species" className="form__label col-md-2">
+                <strong>Sort By Animal Type</strong>
+              </label>
+              <select
+                name="pets"
+                id="pet-select"
+                onChange={(e) => setSelectedSpecies(e.target.value)}
+                className="col-md-3"
+                defaultValue=""
+              >
+                <option value="">--All--</option>
+                <option value="dog">Dog</option>
+                <option value="cat">Cat</option>
+                <option value="hamster">Hamster</option>
+                <option value="parrot">Parrot</option>
+                <option value="spider">Spider</option>
+                <option value="goldfish">Goldfish</option>
+              </select>
+            </section>
 
-          <section className="mb-2">
-            <label htmlFor="distance" className="form__label col-md-2">
-              <strong>Set Max Distance</strong>
-            </label>
-            <select
-              name="distance"
-              id="distance-select"
-              onChange={(e) => setMaxDistanceInMiles(e.target.value)}
-              className="col-md-3"
-              defaultValue="50"
-            >
-              <option value="1">1 mile</option>
-              <option value="5">5 miles</option>
-              <option value="10">10 miles</option>
-              <option value="30">30 miles</option>
-              <option value="50">50 miles</option>
-              <option value="100000">100000 miles</option>
-            </select>
-          </section>
-          <section>
-            <label htmlFor="sort-by" className="form__label col-md-2">
-              <strong>Sort Distance By</strong>
-            </label>
-            <select
-              name="sort-by"
-              id="distance-sort-by"
-              onChange={(e) => setSortDistanceBy(e.target.value)}
-              className="col-md-3"
-              defaultValue="-1"
-            >
-              <option value="-1">Closest</option>
-              <option value="1">Farthest</option>
-            </select>
-          </section>
+            <section className="mb-2 d-flex">
+              <label htmlFor="distance" className="form__label col-md-2">
+                <strong>Set Max Distance</strong>
+              </label>
+              <select
+                name="distance"
+                id="distance-select"
+                onChange={(e) => setMaxDistanceInMiles(e.target.value)}
+                className="col-md-3"
+                defaultValue="50"
+              >
+                <option value="1">1 mile</option>
+                <option value="5">5 miles</option>
+                <option value="10">10 miles</option>
+                <option value="30">30 miles</option>
+                <option value="50">50 miles</option>
+                <option value="100000">100000 miles</option>
+              </select>
+            </section>
+            <section>
+              <label htmlFor="sort-by" className="form__label col-md-2">
+                <strong>Sort Distance By</strong>
+              </label>
+              <select
+                name="sort-by"
+                id="distance-sort-by"
+                onChange={(e) => setSortDistanceBy(e.target.value)}
+                className="col-md-3"
+                defaultValue="-1"
+              >
+                <option value="-1">Closest</option>
+                <option value="1">Farthest</option>
+              </select>
+            </section>
+          </div>
         </div>
 
         <div className="row row-cols-1 row-cols-md-3 g-4">{renderCards()}</div>
